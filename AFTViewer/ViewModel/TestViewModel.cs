@@ -1,0 +1,48 @@
+﻿using AFTViewer.Helpers;
+using System.Collections.ObjectModel;
+using System.Linq;
+using TFAScriptTool.Models;
+
+namespace AFTViewer.ViewModel
+{
+    public class TestViewModel : Observable
+    {
+        private readonly TestResultModel model;
+
+        public TestViewModel(TestResultModel model, RunViewModel runViewModel, string testSuiteName)
+        {
+            this.model = model;
+            FailureCaptureViewModels = new ObservableCollection<FailureCaptureViewModel>();
+            foreach (var failureCapture in model.FailureCaptures)
+            {
+                FailureCaptureViewModels.Add(new FailureCaptureViewModel(failureCapture, runViewModel, testSuiteName, TestName));
+            }
+        }
+
+        public ObservableCollection<FailureCaptureViewModel> FailureCaptureViewModels { get; set; }
+        public string TestName
+        {
+            get => model.TestName;
+            set { model.TestName = value; OnPropertyChanged(); }
+        }
+
+        public int DeleteFailureCapture(FailureCaptureViewModel failureCaptureVM)
+        {
+            int captureVMIndex = -1;
+            int resolvedUnVerifiedFailuresCount = 0;
+            foreach (var captureModel in model.FailureCaptures)
+            {
+                captureVMIndex++;
+                if (captureModel.FailureCaptureName.Split('.')[0] == failureCaptureVM.CaptureName)
+                {
+                    model.FailureCaptures.Remove(captureModel);
+                    if (FailureCaptureViewModels.ElementAt(captureVMIndex).State == FailureCaptureViewModel.FailureState.UnVerified)
+                        resolvedUnVerifiedFailuresCount++;
+                    FailureCaptureViewModels.RemoveAt(captureVMIndex);
+                    break;
+                }
+            }
+            return resolvedUnVerifiedFailuresCount;
+        }
+    }
+}

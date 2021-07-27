@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="AFTViewer.View.RunExplorer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModel="clr-namespace:AFTViewer.ViewModel"
+             xmlns:view="clr-namespace:AFTViewer.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Left">
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                <TextBlock DockPanel.Dock="Top" x:Name="RemaningUnmanagedFailures" Margin="4" FontWeight="Bold" Foreground="Red" Text="{Binding UnVerifiedFailuresCount}" VerticalAlignment="Center"></TextBlock>
+                <TextBlock DockPanel.Dock="Top" Margin="4" VerticalAlignment="Center" Text="échecs restants à traiter."></TextBlock>
+                <Button Margin="4" Padding="4" Click="ExpandTreeView_Click">
+                    <Image Source="../Images/expand.png" Width="15"/>
+                </Button>
+                <Button Margin="4" Padding="4" Click="CollapseTreeView_Click">
+                    <Image Source="../Images/collapse.png" Width="15"/>
+                </Button>
+            </StackPanel>
+
+            <TreeView x:Name="ResultTreeView" Margin="4" Padding="4" ItemsSource="{Binding TestSuiteViewModels}" SelectedItemChanged="ResultTreeView_SelectedItemChanged" SelectedValuePath="SelectedCapture">
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    </Style>
+                </TreeView.ItemContainerStyle>
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type viewModel:TestSuiteViewModel}" ItemsSource="{Binding TestViewModels}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="../Images/folder.png" Margin="0,0,5,0" Stretch="Uniform" Height="20"/>
+                            <TextBlock Text="{Binding TestSuiteName}" VerticalAlignment="Center" FontWeight="DemiBold"/>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                    <HierarchicalDataTemplate DataType="{x:Type viewModel:TestViewModel}" ItemsSource="{Binding FailureCaptureViewModels}">
+                        <StackPanel Orientation="Horizontal" >
+                            <Image Source="../Images/file.png" Margin="0,0,5,0" Stretch="Uniform" Height="20" />
+                            <TextBlock Text="{Binding TestName}" VerticalAlignment="Center" FontWeight="DemiBold"/>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                    <DataTemplate DataType="{x:Type viewModel:FailureCaptureViewModel}">
+                        <StackPanel Orientation="Horizontal" Background="{Binding BackgroundColor}">
+                            <Image Source="../Images/image.png" Margin="0,0,5,0" Stretch="Uniform" Height="20"/>
+                            <TextBlock Text="{Binding CaptureName}" Foreground="{Binding StateTextColor}" FontWeight="Bold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </TreeView.Resources>
+            </TreeView>
+        </DockPanel>
+        <Border HorizontalAlignment="Center" Margin="4" DockPanel.Dock="Bottom" CornerRadius="2" BorderBrush="Black" BorderThickness="1">
+            <StackPanel Orientation="Vertical" Margin="4" HorizontalAlignment="Center">
+                <view:FailureCapturePath Margin="4" DataContext="{Binding SelectedCapture}"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Vérif précédente" Margin="4" Padding="8,4" Click="PreviousVerif_Click" FontSize="16"/>
+                    <Button Content="Capture précédente" Margin="4" Padding="8,4" Click="PreviousFailure_Click" FontSize="16"/>
+                    <Button Content="Capture suivante" Margin="4" Padding="8,4" Click="NextFailure_Click" FontSize="16"/>
+                    <Button Content="Vérif suivante" Margin="4" Padding="8,4" Click="NextVerif_Click" FontSize="16"/>
+                </StackPanel>
+                <view:DecisionView Margin="4" DataContext="{Binding SelectedCapture}"/>
+            </StackPanel>
+        </Border>
+    </DockPanel>
+</UserControl>
