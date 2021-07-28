@@ -16,10 +16,14 @@ namespace AFTViewer
 
         private void RemoveRun_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult messageBoxResult = MessageBox.Show("Êtes-vous sûr(e) ?", "Confirmation de suppression", MessageBoxButton.YesNo);
-            if (messageBoxResult == MessageBoxResult.Yes)
+            var dataContext = (MainViewModel)DataContext;
+            if(dataContext.Runs.Count > 0)
             {
-                ((MainViewModel)DataContext).DeleteRun();
+                MessageBoxResult messageBoxResult = MessageBox.Show("Êtes-vous sûr(e) ?", "Confirmation de suppression", MessageBoxButton.YesNo);
+                if (messageBoxResult == MessageBoxResult.Yes)
+                {
+                    ((MainViewModel)DataContext).DeleteRun();
+                }
             }
         }
         

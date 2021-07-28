@@ -32,46 +32,54 @@ namespace AFTViewer.View
         private void ValidateFailure_Click(object sender, RoutedEventArgs e)
         {
             var dataContext = (FailureCaptureViewModel)DataContext;
-            if(dataContext.State == FailureState.UnVerified)
+            if (dataContext != null && dataContext.RunViewModel.SelectedCapture != null)
             {
-                var runViewModel = dataContext.RunViewModel;
-                if (dataContext != null)
-                {
-                    var initialState = dataContext.State;
-                    runViewModel.UpdateState(FailureState.Recognized);
-                    Helper.SaveChanges(runViewModel.Model);
 
-                    // Changement de capture ssi l'ancien l'état initial est Unverified
-                    if (initialState == FailureState.UnVerified)
-                        runViewModel.SetNextSelectedCapture(true);
+                if (dataContext.State != FailureState.Recognized)
+                {
+                    var runViewModel = dataContext.RunViewModel;
+                    if (dataContext != null)
+                    {
+                        var initialState = dataContext.State;
+                        runViewModel.UpdateState(FailureState.Recognized);
+                        Helper.SaveChanges(runViewModel.Model);
+
+                        // Changement de capture ssi l'ancien l'état initial est Unverified
+                        if (initialState == FailureState.UnVerified)
+                            runViewModel.SetNextSelectedCapture(true);
+                    }
                 }
-            }
-            else
-            {
-                UnVerified_Click();
+                else
+                {
+                    UnVerified_Click();
+                }
             }
         }
 
         private void FalsePositive_Click(object sender, RoutedEventArgs e)
         {
             var dataContext = (FailureCaptureViewModel)DataContext;
-            if (dataContext.State == FailureState.UnVerified)
+            if(dataContext != null && dataContext.RunViewModel.SelectedCapture != null)
             {
-                var runViewModel = dataContext.RunViewModel;
-                if (dataContext != null)
+                // Si capture est non vérifiée ou faux positif
+                if (dataContext.State != FailureState.FalsePositive)
                 {
-                    var initialState = dataContext.State;
-                    runViewModel.UpdateState(FailureState.FalsePositive);
-                    Helper.SaveChanges(runViewModel.Model);
+                    var runViewModel = dataContext.RunViewModel;
+                    if (dataContext != null)
+                    {
+                        var initialState = dataContext.State;
+                        runViewModel.UpdateState(FailureState.FalsePositive);
+                        Helper.SaveChanges(runViewModel.Model);
 
-                    // Changement de capture ssi l'ancien l'état initial est Unverified
-                    if (initialState == FailureState.UnVerified)
-                        runViewModel.SetNextSelectedCapture(true);
+                        // Changement de capture ssi l'ancien l'état initial est Unverified
+                        if (initialState == FailureState.UnVerified)
+                            runViewModel.SetNextSelectedCapture(true);
+                    }
                 }
-            }
-            else
-            {
-                UnVerified_Click();
+                else
+                {
+                    UnVerified_Click();
+                }
             }
         }
 
@@ -84,28 +92,36 @@ namespace AFTViewer.View
                 runViewModel.UpdateState(FailureState.UnVerified);
                 Helper.SaveChanges(runViewModel.Model);
 
-                runViewModel.SetNextSelectedCapture(true);
+                //runViewModel.SetNextSelectedCapture(true);
             }
         }
 
         private void OverrideSpec_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult messageBoxResult = MessageBox.Show("Êtes-vous sûr(e) ?", "Confirmation de remplacement de spécification", MessageBoxButton.YesNo);
-            if (messageBoxResult == MessageBoxResult.Yes)
+            var dataContext = (FailureCaptureViewModel)DataContext;
+            if(dataContext!= null && dataContext.RunViewModel.SelectedCapture != null)
             {
-                var dataContext = (FailureCaptureViewModel)DataContext;
-                var runViewModel = dataContext.RunViewModel;
-                if (dataContext != null)
+                MessageBoxResult messageBoxResult = MessageBox.Show("Êtes-vous sûr(e) ?", "Confirmation de remplacement de spécification", MessageBoxButton.YesNo);
+                if (messageBoxResult == MessageBoxResult.Yes)
                 {
-                    runViewModel.SelectedCapture.SwitchSpecCapture();
+                    var runViewModel = dataContext.RunViewModel;
+                    if (dataContext != null)
+                    {
+                        runViewModel.SelectedCapture.SwitchSpecCapture();
 
-                    runViewModel.DeleteFailureCapture(runViewModel.SelectedCapture);
+                        var selectedCaptureName = runViewModel.SelectedCapture.CaptureName;
 
-                    runViewModel.MainViewModel.RefreshSpecCaptureSources(runViewModel.SelectedCapture);
+                        runViewModel.DeleteFailureCapture(runViewModel.SelectedCapture);
 
-                    runViewModel.SetNextSelectedCapture(true, runViewModel.SelectedCaptureIndex - 1);
+                        runViewModel.MainViewModel.RefreshSpecCaptureSources(selectedCaptureName);
 
-                    Helper.SaveChanges(dataContext.RunViewModel.Model);
+                        runViewModel.SetNextSelectedCapture(true, runViewModel.SelectedCaptureIndex - 1);
+
+                        Helper.SaveChanges(dataContext.RunViewModel.Model);
+
+                        if (runViewModel.SelectedCaptureIndex < 0)
+                            runViewModel.MainViewModel.DeleteRun();
+                    }
                 }
             }
         }

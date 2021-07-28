@@ -44,14 +44,16 @@ namespace AFTViewer.Helpers
         {
             try
             {
-                var runPath = string.Format(Globals.RUN_PATH, model.TimeStamp);
-
-                var serializerOptions = new JsonSerializerOptions()
+                var filePath = string.Format(Globals.RUN_PATH, model.TimeStamp) + @"\_result.json";
+                if (File.Exists(filePath))
                 {
-                    WriteIndented = true
-                };
-                var json = JsonSerializer.Serialize(model, serializerOptions);
-                File.WriteAllText(runPath + @"\_result.json", json);
+                    var serializerOptions = new JsonSerializerOptions()
+                    {
+                        WriteIndented = true
+                    };
+                    var json = JsonSerializer.Serialize(model, serializerOptions);
+                    File.WriteAllText(filePath, json);
+                }
             }
             catch (Exception)
             {

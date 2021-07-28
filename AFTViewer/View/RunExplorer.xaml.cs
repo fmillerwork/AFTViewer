@@ -51,7 +51,7 @@ namespace AFTViewer.View
         #endregion
 
 
-        private void ResultTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        private void ResultTreeView_ItemClicked(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (ResultTreeView.SelectedItem is FailureCaptureViewModel selectedFailureCapture)
             {
@@ -64,24 +64,32 @@ namespace AFTViewer.View
         private void PreviousFailure_Click(object sender, RoutedEventArgs e)
         {
             var dataContext = (RunViewModel)DataContext;
+            if (dataContext == null)
+                return;
             dataContext.SetPreviousSelectedCapture(false);
         }
 
         private void NextFailure_Click(object sender, RoutedEventArgs e)
         {
             var dataContext = (RunViewModel)DataContext;
+            if (dataContext == null)
+                return;
             dataContext.SetNextSelectedCapture(false);
         }
 
         private void PreviousVerif_Click(object sender, RoutedEventArgs e)
         {
             var dataContext = (RunViewModel)DataContext;
+            if (dataContext == null)
+                return;
             dataContext.SetPreviousSelectedCapture(true);
         }
 
         private void NextVerif_Click(object sender, RoutedEventArgs e)
         {
             var dataContext = (RunViewModel)DataContext;
+            if (dataContext == null)
+                return;
             dataContext.SetNextSelectedCapture(true);
         }
         #endregion

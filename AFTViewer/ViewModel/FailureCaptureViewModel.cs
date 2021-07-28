@@ -17,7 +17,10 @@ namespace AFTViewer.ViewModel
         private readonly string capturePath;
         public FailureCaptureViewModel(FailureCaptureResultModel model, RunViewModel runViewModel, string testSuiteName, string testName)
         {
+            failingCaptureCount++;
+            ID = failingCaptureCount;
             this.model = model;
+            RunName = runViewModel.RunName;
             specPath = string.Format(Globals.RUN_PATH, runViewModel.RunName) + model.SpecCapturePath;
             failurePath = string.Format(Globals.RUN_PATH, runViewModel.RunName) + model.FailurePath;
             capturePath = string.Format(Globals.RUN_PATH, runViewModel.RunName) + model.CapturePath;
@@ -39,7 +42,17 @@ namespace AFTViewer.ViewModel
         public FailureState State
         {
             get => model.State;
-            set { model.State = value; OnPropertyChanged(); OnPropertyChanged(nameof(StringState)); OnPropertyChanged(nameof(StateTextColor)); }
+            set 
+            { 
+                model.State = value; 
+                OnPropertyChanged(); 
+                OnPropertyChanged(nameof(StringState)); 
+                OnPropertyChanged(nameof(StateTextColor)); 
+                OnPropertyChanged(nameof(ValidateButtonContent));
+                OnPropertyChanged(nameof(FalsePositiveButtonContent)); 
+                OnPropertyChanged(nameof(ValidateButtonBackground)); 
+                OnPropertyChanged(nameof(FalsePositiveButtonBackground)); 
+            }
         }
 
         public string StringState
@@ -101,23 +114,6 @@ namespace AFTViewer.ViewModel
             };
         }
 
-        public string ValidateButtonClick
-        {
-            get => State switch
-            {
-                FailureState.Recognized => "UnVerified_Click",
-                _ => "ValidateFailure_Click",
-            };
-        }
-
-        public string FalsePositiveButtonClick
-        {
-            get => State switch
-            {
-                FailureState.FalsePositive => "UnVerified_Click",
-                _ => "FalsePositive_Click",
-            };
-        }
         #endregion
         private string runName;
         public string RunName
@@ -171,6 +167,25 @@ namespace AFTViewer.ViewModel
             get => backgroundColor;
             set => SetProperty(ref backgroundColor, value);
         }
+
+        private int id;
+        public int ID
+        {
+            get => id;
+            set => SetProperty(ref id, value);
+        }
+
+        private static int failingCaptureCount;
+
+        //private bool isSelected;
+        ///// <summary>
+        ///// Indique au treeview que l'item est sélectionné
+        ///// </summary>
+        //public bool IsSelected
+        //{
+        //    get => isSelected;
+        //    set => SetProperty(ref isSelected, value);
+        //}
 
         /// <summary>
         /// Supprime la specification actuelle et la remplace par la capture actuelle.

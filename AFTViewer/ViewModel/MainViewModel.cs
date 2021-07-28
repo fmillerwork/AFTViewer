@@ -51,10 +51,10 @@ namespace AFTViewer.ViewModel
         }
 
         /// <summary>
-        /// Effectue un rechargement des captures de specifications pour les FailureCaptureViewModel ayant le même nom que "failureCapture".
+        /// Effectue un rechargement des captures de specifications pour les FailureCaptureViewModel ayant le nom passé en paramètre (de toutes les runs).
         /// </summary>
-        /// <param name="failureCapture"></param>
-        public void RefreshSpecCaptureSources(FailureCaptureViewModel failureCapture)
+        /// <param name="failureCaptureName"></param>
+        public void RefreshSpecCaptureSources(string failureCaptureName)
         {
             foreach (var run in Runs)
             {
@@ -64,7 +64,7 @@ namespace AFTViewer.ViewModel
                     {
                         foreach (var capture in test.FailureCaptureViewModels)
                         {
-                            if (capture.CaptureName == failureCapture.CaptureName)
+                            if (capture.CaptureName == failureCaptureName)
                             {
                                 var specPath = string.Format(Globals.RUN_PATH, capture.RunName) + capture.Model.SpecCapturePath;
                                 capture.SpecCaptureSource = Helper.LoadImage(specPath);
@@ -77,16 +77,22 @@ namespace AFTViewer.ViewModel
 
         public void SetPrevRun()
         {
-            var runIndex = Runs.IndexOf(SelectedRun);
-            if (runIndex != 0)
-                SelectedRun = Runs.ElementAt(runIndex - 1);
+            if(Runs.Count > 0)
+            {
+                var runIndex = Runs.IndexOf(SelectedRun);
+                if (runIndex != 0)
+                    SelectedRun = Runs.ElementAt(runIndex - 1);
+            }
         }
 
         public void SetNextRun()
         {
-            var runIndex = Runs.IndexOf(SelectedRun);
-            if (runIndex != Runs.Count - 1)
-                SelectedRun = Runs.ElementAt(runIndex + 1);
+            if (Runs.Count > 0)
+            {
+                var runIndex = Runs.IndexOf(SelectedRun);
+                if (runIndex != Runs.Count - 1)
+                    SelectedRun = Runs.ElementAt(runIndex + 1);
+            }
         }
 
         public void DeleteRun()

@@ -20,7 +20,7 @@
                 </Button>
             </StackPanel>
 
-            <TreeView x:Name="ResultTreeView" Margin="4" Padding="4" ItemsSource="{Binding TestSuiteViewModels}" SelectedItemChanged="ResultTreeView_SelectedItemChanged" SelectedValuePath="SelectedCapture">
+            <TreeView x:Name="ResultTreeView" Margin="4" Padding="4" ItemsSource="{Binding TestSuiteViewModels}" SelectedValuePath="SelectedCapture">
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}">
                         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
@@ -28,24 +28,36 @@
                     </Style>
                 </TreeView.ItemContainerStyle>
                 <TreeView.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                      Color="Transparent" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
+                      Color="Black" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                      Color="Transparent" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                      Color="Black" />
+
                     <HierarchicalDataTemplate DataType="{x:Type viewModel:TestSuiteViewModel}" ItemsSource="{Binding TestViewModels}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="../Images/folder.png" Margin="0,0,5,0" Stretch="Uniform" Height="20"/>
                             <TextBlock Text="{Binding TestSuiteName}" VerticalAlignment="Center" FontWeight="DemiBold"/>
                         </StackPanel>
                     </HierarchicalDataTemplate>
+                    
                     <HierarchicalDataTemplate DataType="{x:Type viewModel:TestViewModel}" ItemsSource="{Binding FailureCaptureViewModels}">
                         <StackPanel Orientation="Horizontal" >
                             <Image Source="../Images/file.png" Margin="0,0,5,0" Stretch="Uniform" Height="20" />
                             <TextBlock Text="{Binding TestName}" VerticalAlignment="Center" FontWeight="DemiBold"/>
                         </StackPanel>
                     </HierarchicalDataTemplate>
+                    
                     <DataTemplate DataType="{x:Type viewModel:FailureCaptureViewModel}">
-                        <StackPanel Orientation="Horizontal" Background="{Binding BackgroundColor}">
+                        <StackPanel Orientation="Horizontal" Background="{Binding BackgroundColor}" MouseLeftButtonUp="ResultTreeView_ItemClicked">
                             <Image Source="../Images/image.png" Margin="0,0,5,0" Stretch="Uniform" Height="20"/>
                             <TextBlock Text="{Binding CaptureName}" Foreground="{Binding StateTextColor}" FontWeight="Bold" VerticalAlignment="Center"/>
                         </StackPanel>
                     </DataTemplate>
+                    
                 </TreeView.Resources>
             </TreeView>
         </DockPanel>
@@ -61,5 +73,6 @@
                 <view:DecisionView Margin="4" DataContext="{Binding SelectedCapture}"/>
             </StackPanel>
         </Border>
+        <view:Comparer Margin="4" DataContext="{Binding SelectedCapture}"/>
     </DockPanel>
 </UserControl>

@@ -59,18 +59,27 @@ namespace AFTViewer.ViewModel
             get => selectedCapture;
             set
             {
-                if (selectedCapture != null) selectedCapture.BackgroundColor = Brushes.Transparent;
+                if (selectedCapture != null)
+                {
+                    selectedCapture.BackgroundColor = Brushes.Transparent;
+                    //selectedCapture.IsSelected = false;
+                }
                 SetProperty(ref selectedCapture, value);
                 UpdateExpand();
                 //if (selectedCapture != null) selectedCapture.Background = Brushes.DodgerBlue; // bleu de selection
                 //if (selectedCapture != null) selectedCapture.Background = new SolidColorBrush(Color.FromRgb(238, 111, 36)); // couleur n2f
-                if (selectedCapture != null) selectedCapture.BackgroundColor = new SolidColorBrush(Color.FromRgb(154, 154, 154)); // gris
+                if (selectedCapture != null) 
+                {
+                    selectedCapture.BackgroundColor = new SolidColorBrush(Color.FromRgb(154, 154, 154)); // gris
+                    //selectedCapture.IsSelected = true;
+                }
                 //if (selectedCapture != null) selectedCapture.Background = Brushes.Orange;
             }
         }
 
         public int SelectedCaptureIndex { get; set; }
 
+        #region Methodes de navigation
         /// <summary>
         /// Passe à l'échec suivant.
         /// </summary>
@@ -91,14 +100,15 @@ namespace AFTViewer.ViewModel
                     int indexCount = 0;
                     do
                     {
-                        // Si la boucle à fait le tour des captures.
                         indexCount++;
+                        // Si la boucle à fait le tour des captures.
                         if (indexCount > FailureCaptureList.Count)
                         {
-                            SelectedCapture = null;
-                            return;
+                            SelectedCapture = FailureCaptureList.First();
+                            return; // VERIF
                         }
 
+                        // Si dernier indice
                         if (selectedCaptureIndex == FailureCaptureList.Count - 1)
                             selectedCaptureIndex = 0;
                         else
@@ -136,11 +146,11 @@ namespace AFTViewer.ViewModel
                     int indexCount = 0;
                     do
                     {
-                        // Si la boucle à fait le tour des captures.
+                        // Si la boucle à fait le tour des captures, on renvoie la première capture.
                         indexCount++;
                         if (indexCount > FailureCaptureList.Count)
                         {
-                            SelectedCapture = null;
+                            SelectedCapture = FailureCaptureList.First();
                             return;
                         }
                         if (selectedCaptureIndex == 0)
@@ -163,28 +173,38 @@ namespace AFTViewer.ViewModel
                 SelectedCapture = null;
         }
 
+        #endregion
+
         /// <summary>
-        /// Supprime le FailureCaptureViewModel dans toute la run.
+        /// Supprime le FailureCaptureViewModel dans toute la run et actualise la SelectedCapture.
         /// </summary>
         /// <param name="failureCapture"></param>
         public void DeleteFailureCapture(FailureCaptureViewModel failureCapture)
         {
-            SelectedCaptureIndex = FailureCaptureList.IndexOf(SelectedCapture) + 1;
-
+            SelectedCaptureIndex = FailureCaptureList.IndexOf(SelectedCapture);
+            var isFailureCaptureTestSuiteExamined = false;
             // Par suite de test.
-            for (int testSuiteIndex = 0; testSuiteIndex < TestSuiteViewModels.Count; testSuiteIndex++)
+            for (int testSuiteIndex = TestSuiteViewModels.Count - 1; testSuiteIndex >= 0; testSuiteIndex--)
             {
                 var currentTestSuite = TestSuiteViewModels[testSuiteIndex];
                 // Par test.
-                for (int testIndex = 0; testIndex < currentTestSuite.TestViewModels.Count; testIndex++)
+                for (int testIndex = currentTestSuite.TestViewModels.Count - 1; testIndex >= 0; testIndex--)
                 {
                     var currentTest = currentTestSuite.TestViewModels[testIndex];
+                    var deleted = false;
+                    
 
                     // Si capture trouvée, suppression capture du test.
                     if (failureCapture.TestName == currentTest.TestName)
                     {
-                        UnVerifiedFailuresCount -= currentTest.DeleteFailureCapture(failureCapture);
-                        SelectedCaptureIndex--;
+                        // Vérification si la suite de failureCapture est déjà examinée
+                        if (isFailureCaptureTestSuiteExamined)
+                            SelectedCaptureIndex--;
+                        if (failureCapture.TestSuiteName == currentTestSuite.TestSuiteName)
+                            isFailureCaptureTestSuiteExamined = true;
+
+                        UnVerifiedFailuresCount -= currentTest.DeleteFailureCapture(failureCapture.CaptureName);
+                        deleted = true;
                     }
 
                     // Si plus aucune capture dans le test, supprime test de la suite.
@@ -193,6 +213,11 @@ namespace AFTViewer.ViewModel
                         currentTestSuite.DeleteTest(currentTest);
                         break; // Car tests en 1 exemplaire max par suite
                     }
+
+                    // Si capture trouvée (et supprimée) dans un test de la suite, on arrete de parcourir la suite.
+                    // Car une occurence de test par suite. Et les captures sont propres à chaque test.
+                    if (deleted) 
+                        break;
                 }
                 // Si plus aucun test dans la suite, supprime suite de la run.
                 if (currentTestSuite.TestViewModels.Count == 0)
@@ -201,11 +226,25 @@ namespace AFTViewer.ViewModel
                 }
             }
             // Suppression des captures dans la liste de navigation.
-            for (int captureIndex = 0; captureIndex < FailureCaptureList.Count; captureIndex++)
+            for (int captureIndex = FailureCaptureList.Count - 1; captureIndex >= 0; captureIndex--)
             {
                 var currentCapture = FailureCaptureList[captureIndex];
                 if (currentCapture.CaptureName == failureCapture.CaptureName)
                     FailureCaptureList.Remove(currentCapture);
+            }
+
+            //Actualisation SelectedCapture
+            while( SelectedCaptureIndex >= FailureCaptureList.Count)
+            {
+                SelectedCaptureIndex--;
+            }
+            // Si plus de captures dans la run.
+            if (SelectedCaptureIndex < 0)
+            {
+                // Modifier si besoin
+                SelectedCapture = null;
+                MainViewModel.SetPrevRun();
+                MainViewModel.DeleteRun(); // tester
             }
         }
 
@@ -216,17 +255,21 @@ namespace AFTViewer.ViewModel
         public void UpdateState(FailureState newState)
         {
             // État actuel 
-            if (SelectedCapture.State == FailureState.UnVerified) 
+            if (SelectedCapture.State == FailureState.UnVerified)
                 UnVerifiedFailuresCount--;
-            else 
+            // Remise en Non vérifié
+            else if (newState == FailureState.UnVerified)
                 UnVerifiedFailuresCount++;
 
             SelectedCapture.State = newState;
+
+            // *** PAS UTILE POUR LE MOMENT
             // Nouvel état
             if (SelectedCapture.State == FailureState.FalsePositive)
                 FailureCount--;
-            else
+            else if( SelectedCapture.State == FailureState.Recognized)
                 FailureCount++;
+            // ***
         }
 
         #region Private Methods
