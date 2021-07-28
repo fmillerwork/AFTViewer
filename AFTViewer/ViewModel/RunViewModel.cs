@@ -193,7 +193,6 @@ namespace AFTViewer.ViewModel
                     var currentTest = currentTestSuite.TestViewModels[testIndex];
                     var deleted = false;
                     
-
                     // Si capture trouvée, suppression capture du test.
                     if (failureCapture.TestName == currentTest.TestName)
                     {

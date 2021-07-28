@@ -39,7 +39,7 @@ namespace AFTViewer.ViewModel
                     if (FailureCaptureViewModels.ElementAt(captureVMIndex).State == FailureCaptureViewModel.FailureState.UnVerified)
                         resolvedUnVerifiedFailuresCount++;
                     FailureCaptureViewModels.RemoveAt(captureVMIndex);
-                    return 1;
+                    return resolvedUnVerifiedFailuresCount;
                 }
             }
             return resolvedUnVerifiedFailuresCount;
