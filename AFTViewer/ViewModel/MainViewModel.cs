@@ -7,15 +7,6 @@ namespace AFTViewer.ViewModel
 {
     public class MainViewModel : Observable
     {
-        public ObservableCollection<RunViewModel> Runs { get; set; }
-
-        private RunViewModel selectedRun;
-        public RunViewModel SelectedRun
-        {
-            get => selectedRun;
-            set => SetProperty(ref selectedRun, value);
-        }
-
         public MainViewModel()
         {
             Runs = new ObservableCollection<RunViewModel>();
@@ -35,6 +26,17 @@ namespace AFTViewer.ViewModel
             if (Runs.Count != 0)
                 SelectedRun = Runs[^1];
         }
+
+        #region Properties
+        public ObservableCollection<RunViewModel> Runs { get; set; }
+
+        private RunViewModel selectedRun;
+        public RunViewModel SelectedRun
+        {
+            get => selectedRun;
+            set => SetProperty(ref selectedRun, value);
+        }
+        #endregion
 
         /// <summary>
         /// Recharge la totalité des runs.

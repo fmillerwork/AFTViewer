@@ -30,6 +30,7 @@ namespace AFTViewer.ViewModel
             TestName = testName;
         }
 
+        #region Properties
         public FailureCaptureResultModel Model
         {
             get => model;
@@ -113,6 +114,7 @@ namespace AFTViewer.ViewModel
         }
 
         #endregion
+
         private string runName;
         public string RunName
         {
@@ -166,15 +168,7 @@ namespace AFTViewer.ViewModel
             set => SetProperty(ref backgroundColor, value);
         }
 
-        //private bool isSelected;
-        ///// <summary>
-        ///// Indique au treeview que l'item est sélectionné
-        ///// </summary>
-        //public bool IsSelected
-        //{
-        //    get => isSelected;
-        //    set => SetProperty(ref isSelected, value);
-        //}
+        #endregion
 
         /// <summary>
         /// Supprime la specification actuelle et la remplace par la capture actuelle.

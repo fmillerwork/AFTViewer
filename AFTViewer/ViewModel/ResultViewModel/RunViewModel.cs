@@ -28,7 +28,7 @@ namespace AFTViewer.ViewModel
             SelectedCapture = GetFirstFailureCapture();
         }
 
-        #region Propriétés public
+        #region Properties
         public ObservableCollection<TestSuiteViewModel> TestSuiteViewModels { get; set; }
         public int UnVerifiedFailuresCount
         {
@@ -270,7 +270,7 @@ namespace AFTViewer.ViewModel
 
             SelectedCapture.State = newState;
 
-            // *** PAS UTILE POUR LE MOMENT
+            // *** PAS UTILE POUR LE MOMENT - A actualiser si besoin de FailureCount
             // Nouvel état
             if (SelectedCapture.State == FailureState.FalsePositive)
                 FailureCount--;

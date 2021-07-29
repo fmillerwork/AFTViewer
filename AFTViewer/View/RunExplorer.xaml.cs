@@ -19,6 +19,14 @@ namespace AFTViewer.View
         {
             InitializeComponent();
         }
+        private void ResultTreeView_ItemClicked(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (ResultTreeView.SelectedItem is FailureCaptureViewModel selectedFailureCapture)
+            {
+                var dataContext = (RunViewModel)DataContext;
+                dataContext.SelectedCapture = selectedFailureCapture;
+            }
+        }
 
         #region Collapse/Expand treeview
         private void CollapseTreeView_Click(object sender, RoutedEventArgs e)
@@ -34,7 +42,6 @@ namespace AFTViewer.View
         /// <summary>
         /// Développe ou réduit le ResultTreeView. Mettre "expand" à true pour développer et à false pour réduire.
         /// </summary>
-        /// <param name="Item"></param>
         /// <param name="expand"></param>
         private void ExpandOrCollapseTreeviewItems(bool expand)
         {
@@ -49,16 +56,6 @@ namespace AFTViewer.View
             }
         }
         #endregion
-
-
-        private void ResultTreeView_ItemClicked(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            if (ResultTreeView.SelectedItem is FailureCaptureViewModel selectedFailureCapture)
-            {
-                var dataContext = (RunViewModel)DataContext;
-                dataContext.SelectedCapture = selectedFailureCapture;
-            }
-        }
 
         #region Navigation buttons
         private void PreviousFailure_Click(object sender, RoutedEventArgs e)
