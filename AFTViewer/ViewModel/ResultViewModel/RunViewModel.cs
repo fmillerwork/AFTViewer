@@ -87,16 +87,15 @@ namespace AFTViewer.ViewModel
         /// Passe à l'échec suivant en fonction de la capture selectionnée. Pour se basé sur une autre capture, selectedCaptureIndex être égal à l'indice de lla capture dans FailureCaptureList.
         /// </summary>
         /// <param name="getNextUnVerified"></param>
-        /// <param name="selectedCaptureIndex"></param>
-        public void SetNextSelectedCapture(bool getNextUnVerified, int selectedCaptureIndex = -1)
+        public void SetNextSelectedCapture(bool getNextUnVerified)
         {
             if (SelectedCapture == null)
                 return;
-
-            if (FailureCaptureList.Count != 0)
+            if (FailureCaptureList.Count == 0)
+                SelectedCapture = null;
+            else
             {
-                if (selectedCaptureIndex == -1)
-                    selectedCaptureIndex = FailureCaptureList.IndexOf(SelectedCapture);
+                int selectedCaptureIndex = FailureCaptureList.IndexOf(SelectedCapture);
 
                 if (getNextUnVerified)
                 {
@@ -108,7 +107,7 @@ namespace AFTViewer.ViewModel
                         if (indexCount > FailureCaptureList.Count)
                         {
                             SelectedCapture = FailureCaptureList.First();
-                            return; // VERIF
+                            return;
                         }
 
                         // Si dernier indice
@@ -128,20 +127,19 @@ namespace AFTViewer.ViewModel
                         SelectedCapture = FailureCaptureList.ElementAt(selectedCaptureIndex + 1);
                 }
             }
-            else
-                SelectedCapture = null;
         }
 
         /// <summary>
         /// Passe à l'échec précédent.
         /// </summary>
-        /// <param name="getNextUnVerified"></param>
+        /// <param name="getPrevUnVerified"></param>
         public void SetPreviousSelectedCapture(bool getPrevUnVerified)
         {
             if (SelectedCapture == null)
                 return;
-
-            if (FailureCaptureList.Count != 0)
+            if (FailureCaptureList.Count == 0)
+                SelectedCapture = null;
+            else
             {
                 var selectedCaptureIndex = FailureCaptureList.IndexOf(SelectedCapture);
                 if (getPrevUnVerified)
@@ -156,6 +154,8 @@ namespace AFTViewer.ViewModel
                             SelectedCapture = FailureCaptureList.First();
                             return;
                         }
+
+                        // Si premier  indice
                         if (selectedCaptureIndex == 0)
                             selectedCaptureIndex = FailureCaptureList.Count - 1;
                         else
@@ -172,23 +172,25 @@ namespace AFTViewer.ViewModel
                         SelectedCapture = FailureCaptureList.ElementAt(selectedCaptureIndex - 1);
                 }
             }
-            else
-                SelectedCapture = null;
         }
 
         /// <summary>
-        /// Selectionne la première failure non verifiée.
+        /// Selectionne la première failure non verifiée. S'il n'en existe pas, le première capture vérifiée est sélectionnée.
         /// </summary>
         public void SetSelectedCaptureOnFirstUnverifiedCapture()
         {
+            bool changed = false;
             foreach (var failureCapture in FailureCaptureList)
             {
                 if (failureCapture.State == FailureState.UnVerified)
                 {
                     SelectedCapture = failureCapture;
+                    changed = true;
                     break;
                 }
             }
+            if (!changed)
+                SelectedCapture = FailureCaptureList.First();
         }
         #endregion
 

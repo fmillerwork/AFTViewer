@@ -60,7 +60,7 @@ namespace AFTViewer.View
             }
         }
 
-        #region Previous/Next Failure
+        #region Navigation buttons
         private void PreviousFailure_Click(object sender, RoutedEventArgs e)
         {
             var dataContext = (RunViewModel)DataContext;
@@ -94,70 +94,89 @@ namespace AFTViewer.View
         }
         #endregion
 
-        //#region Choice events
-        //private void ValidateFailure_Click(object sender, RoutedEventArgs e)
-        //{
-        //    var dataContext = (RunViewModel)DataContext;
-        //    if (dataContext.SelectedCapture != null)
-        //    {
-        //        var initialState = dataContext.SelectedCapture.State;
-        //        dataContext.UpdateState(FailureState.Recognized);
-        //        Helper.SaveChanges(dataContext.Model);
+        #region Choice events
+        private void ValidateFailure_Click(object sender, RoutedEventArgs e)
+        {
+            var dataContext = (RunViewModel)DataContext;
+            if (dataContext != null && dataContext.SelectedCapture != null)
+            {
 
-        //        // Changement de capture ssi l'ancien l'état initial est Unverified
-        //        if (initialState == FailureState.UnVerified)
-        //            dataContext.SetNextSelectedCapture(true);
-        //    }
-        //}
+                if (dataContext.SelectedCapture.State != FailureState.Recognized)
+                {
+                    if (dataContext != null)
+                    {
+                        var initialState = dataContext.SelectedCapture.State;
+                        dataContext.UpdateState(FailureState.Recognized);
+                        Helper.SaveChanges(dataContext.Model);
 
-        //private void FalsePositive_Click(object sender, RoutedEventArgs e)
-        //{
-        //    var dataContext = (RunViewModel)DataContext;
-        //    if (dataContext.SelectedCapture != null)
-        //    {
-        //        var initialState = dataContext.SelectedCapture.State;
-        //        dataContext.UpdateState(FailureState.FalsePositive);
-        //        Helper.SaveChanges(dataContext.Model);
+                        // Changement de capture ssi l'ancien l'état initial est Unverified
+                        if (initialState == FailureState.UnVerified)
+                            dataContext.SetSelectedCaptureOnFirstUnverifiedCapture();
+                    }
+                }
+                else
+                {
+                    UnVerified_Click();
+                }
+            }
+        }
 
-        //        // Changement de capture ssi l'ancien l'état initial est Unverified
-        //        if (initialState == FailureState.UnVerified)
-        //            dataContext.SetNextSelectedCapture(true);
-        //    }
-        //}
+        private void FalsePositive_Click(object sender, RoutedEventArgs e)
+        {
+            var dataContext = (RunViewModel)DataContext;
+            if (dataContext != null && dataContext.SelectedCapture != null)
+            {
+                // Si capture est non vérifiée ou faux positif
+                if (dataContext.SelectedCapture.State != FailureState.FalsePositive)
+                {
+                    if (dataContext != null)
+                    {
+                        var initialState = dataContext.SelectedCapture.State;
+                        dataContext.UpdateState(FailureState.FalsePositive);
+                        Helper.SaveChanges(dataContext.Model);
 
-        //private void UnVerified_Click(object sender, RoutedEventArgs e)
-        //{
-        //    var dataContext = (RunViewModel)DataContext;
-        //    if (dataContext.SelectedCapture != null)
-        //    {
-        //        dataContext.UpdateState(FailureState.UnVerified);
-        //        Helper.SaveChanges(dataContext.Model);
+                        // Changement de capture ssi l'ancien l'état initial est Unverified
+                        if (initialState == FailureState.UnVerified)
+                            dataContext.SetSelectedCaptureOnFirstUnverifiedCapture();
+                    }
+                }
+                else
+                {
+                    UnVerified_Click();
+                }
+            }
+        }
 
-        //        dataContext.SetNextSelectedCapture(true);
-        //    }
-        //}
+        private void OverrideSpec_Click(object sender, RoutedEventArgs e)
+        {
+            var dataContext = (RunViewModel)DataContext;
+            if (dataContext != null && dataContext.SelectedCapture != null)
+            {
+                MessageBoxResult messageBoxResult = MessageBox.Show("Êtes-vous sûr(e) ?", "Confirmation de remplacement de spécification", MessageBoxButton.YesNo);
+                if (messageBoxResult == MessageBoxResult.Yes)
+                {
+                    if (dataContext != null)
+                    {
+                        dataContext.OverrideSpecCapture(dataContext.SelectedCapture);
+                        Helper.SaveChanges(dataContext.Model);
+                    }
+                }
+            }
+        }
 
-        //private void OverrideSpec_Click(object sender, RoutedEventArgs e)
-        //{
-        //    MessageBoxResult messageBoxResult = MessageBox.Show("Êtes-vous sûr(e) ?", "Confirmation de remplacement de spécification", MessageBoxButton.YesNo);
-        //    if (messageBoxResult == MessageBoxResult.Yes)
-        //    {
-        //        var dataContext = (RunViewModel)DataContext;
-        //        if (dataContext.SelectedCapture != null)
-        //        {
-        //            dataContext.SelectedCapture.SwitchSpecCapture();
+        #region SubEvent
+        private void UnVerified_Click()
+        {
+            var dataContext = (RunViewModel)DataContext;
+            if (dataContext != null)
+            {
+                dataContext.UpdateState(FailureState.UnVerified);
+                Helper.SaveChanges(dataContext.Model);
 
-        //            dataContext.DeleteFailureCapture(dataContext.SelectedCapture);
-
-        //            dataContext.MainViewModel.RefreshSpecCaptureSources(dataContext.SelectedCapture);
-
-        //            dataContext.SetNextSelectedCapture(true, dataContext.SelectedCaptureIndex - 1);
-
-        //            Helper.SaveChanges(dataContext.Model);
-        //        }
-        //    }
-        //}
-
-        //#endregion
+                //runViewModel.SetNextSelectedCapture(true);
+            }
+        }
+        #endregion
+        #endregion
     }
 }

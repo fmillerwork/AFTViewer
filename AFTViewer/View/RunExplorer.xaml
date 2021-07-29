@@ -9,6 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel>
         <DockPanel DockPanel.Dock="Left">
+            <!--Elements sur le treeview-->
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                 <TextBlock DockPanel.Dock="Top" x:Name="RemaningUnmanagedFailures" Margin="4" FontWeight="Bold" Foreground="Red" Text="{Binding UnVerifiedFailuresCount}" VerticalAlignment="Center"></TextBlock>
                 <TextBlock DockPanel.Dock="Top" Margin="4" VerticalAlignment="Center" Text="échecs restants à traiter."></TextBlock>
@@ -63,14 +64,35 @@
         </DockPanel>
         <Border HorizontalAlignment="Center" Margin="4" DockPanel.Dock="Bottom" CornerRadius="2" BorderBrush="Black" BorderThickness="1">
             <StackPanel Orientation="Vertical" Margin="4" HorizontalAlignment="Center">
-                <view:FailureCapturePath Margin="4" DataContext="{Binding SelectedCapture}"/>
+
+                <!--Informations capture-->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Margin="5" VerticalAlignment="Center">Run :</TextBlock>
+                    <TextBlock Margin="0,0,10,0" FontWeight="Bold" VerticalAlignment="Center" Text="{Binding SelectedCapture.RunName}"></TextBlock>
+                    <TextBlock Margin="5" VerticalAlignment="Center">Suite :</TextBlock>
+                    <TextBlock Margin="0,0,10,0" FontWeight="Bold" VerticalAlignment="Center" Text="{Binding SelectedCapture.TestSuiteName}"></TextBlock>
+                    <TextBlock Margin="5" VerticalAlignment="Center">Test :</TextBlock>
+                    <TextBlock Margin="0,0,10,0" FontWeight="Bold" VerticalAlignment="Center" Text="{Binding SelectedCapture.TestName}"></TextBlock>
+                    <TextBlock Margin="5" VerticalAlignment="Center">Capture :</TextBlock>
+                    <TextBlock Margin="0,0,10,0" FontWeight="Bold" VerticalAlignment="Center" Text="{Binding SelectedCapture.CaptureName}"></TextBlock>
+                    <TextBlock Margin="5" VerticalAlignment="Center">État :</TextBlock>
+                    <TextBlock Margin="0,0,10,0" FontWeight="Bold" Foreground="{Binding StateTextColor}" VerticalAlignment="Center" Text="{Binding StringState}"></TextBlock>
+                </StackPanel>
+                
+                <!--Navigation-->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Content="Vérif précédente" Margin="4" Padding="8,4" Click="PreviousVerif_Click" FontSize="16"/>
                     <Button Content="Capture précédente" Margin="4" Padding="8,4" Click="PreviousFailure_Click" FontSize="16"/>
                     <Button Content="Capture suivante" Margin="4" Padding="8,4" Click="NextFailure_Click" FontSize="16"/>
                     <Button Content="Vérif suivante" Margin="4" Padding="8,4" Click="NextVerif_Click" FontSize="16"/>
                 </StackPanel>
-                <view:DecisionView Margin="4" DataContext="{Binding SelectedCapture}"/>
+
+                <!--Choix-->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="20">
+                    <Button x:Name="ValidateButton" Content="{Binding SelectedCapture.ValidateButtonContent}" Margin="4" Padding="8,4" Click="ValidateFailure_Click" FontSize="14" FontWeight="Bold" Background="{Binding SelectedCapture.ValidateButtonBackground}" Foreground="White"/>
+                    <Button x:Name="FalsePositiveButton" Content="{Binding SelectedCapture.FalsePositiveButtonContent}" Margin="4" Padding="8,4" Click="FalsePositive_Click" FontSize="14" FontWeight="Bold" Background="{Binding SelectedCapture.FalsePositiveButtonBackground}" Foreground="White"/>
+                    <Button Content="Remplacer la spécification" Margin="4" Padding="8,4" Click="OverrideSpec_Click" FontWeight="Bold" FontSize="14" Background="Gray" Foreground="White"/>
+                </StackPanel>
             </StackPanel>
         </Border>
         <view:Comparer Margin="4" DataContext="{Binding SelectedCapture}"/>
