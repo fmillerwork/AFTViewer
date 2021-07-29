@@ -26,7 +26,7 @@ namespace AFTViewer
                 MessageBoxResult messageBoxResult = MessageBox.Show("Êtes-vous sûr(e) ?", "Confirmation de suppression", MessageBoxButton.YesNo);
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
-                    ((MainViewModel)DataContext).DeleteRun();
+                    ((MainViewModel)DataContext).DeleteSelectedRun();
                 }
             }
         }

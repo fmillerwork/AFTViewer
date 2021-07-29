@@ -90,8 +90,9 @@ namespace AFTViewer.ViewModel
             }
         }
 
-        public void DeleteRun()
+        public void DeleteSelectedRun()
         {
+            SelectedRun.SelectedCapture = null;
             Directory.Delete(string.Format(Globals.RUN_PATH, SelectedRun.RunName), true);
             Runs.Remove(SelectedRun);
             if (Runs.Count != 0)

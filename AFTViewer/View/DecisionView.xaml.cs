@@ -119,8 +119,8 @@ namespace AFTViewer.View
 
                         Helper.SaveChanges(dataContext.RunViewModel.Model);
 
-                        if (runViewModel.SelectedCaptureIndex < 0)
-                            runViewModel.MainViewModel.DeleteRun();
+                        if (runViewModel.IsEmpty)
+                            runViewModel.MainViewModel.DeleteSelectedRun();
                     }
                 }
             }

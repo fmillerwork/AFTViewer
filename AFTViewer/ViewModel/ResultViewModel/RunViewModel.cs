@@ -213,7 +213,7 @@ namespace AFTViewer.ViewModel
                         break; // Car tests en 1 exemplaire max par suite
                     }
 
-                    // Si capture trouvée (et supprimée) dans un test de la suite, on arrete de parcourir la suite.
+                    // Si capture trouvée (donc supprimée) dans un test de la suite, on arrete de parcourir la suite.
                     // Car une occurence de test par suite. Et les captures sont propres à chaque test.
                     if (deleted) 
                         break;
@@ -232,18 +232,10 @@ namespace AFTViewer.ViewModel
                     FailureCaptureList.Remove(currentCapture);
             }
 
-            //Actualisation SelectedCapture
-            while( SelectedCaptureIndex >= FailureCaptureList.Count)
+            //Si indice dépasse la liste
+            while ( SelectedCaptureIndex >= FailureCaptureList.Count)
             {
                 SelectedCaptureIndex--;
-            }
-            // Si plus de captures dans la run.
-            if (SelectedCaptureIndex < 0)
-            {
-                // Modifier si besoin
-                SelectedCapture = null;
-                MainViewModel.SetPrevRun();
-                MainViewModel.DeleteRun(); // tester
             }
         }
 
@@ -269,6 +261,11 @@ namespace AFTViewer.ViewModel
             else if( SelectedCapture.State == FailureState.Recognized)
                 FailureCount++;
             // ***
+        }
+
+        public bool IsEmpty
+        {
+            get => FailureCaptureList.Count == 0;
         }
 
         #region Private Methods
