@@ -107,20 +107,8 @@ namespace AFTViewer.View
                     var runViewModel = dataContext.RunViewModel;
                     if (dataContext != null)
                     {
-                        runViewModel.SelectedCapture.SwitchSpecCapture();
-
-                        var selectedCaptureName = runViewModel.SelectedCapture.CaptureName;
-
-                        runViewModel.DeleteFailureCapture(runViewModel.SelectedCapture);
-
-                        runViewModel.MainViewModel.RefreshSpecCaptureSources(selectedCaptureName);
-
-                        runViewModel.SetNextSelectedCapture(true, runViewModel.SelectedCaptureIndex - 1);
-
+                        runViewModel.OverrideSpecCapture(runViewModel.SelectedCapture);
                         Helper.SaveChanges(dataContext.RunViewModel.Model);
-
-                        if (runViewModel.IsEmpty)
-                            runViewModel.MainViewModel.DeleteSelectedRun();
                     }
                 }
             }

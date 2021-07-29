@@ -17,8 +17,6 @@ namespace AFTViewer.ViewModel
         private readonly string capturePath;
         public FailureCaptureViewModel(FailureCaptureResultModel model, RunViewModel runViewModel, string testSuiteName, string testName)
         {
-            failingCaptureCount++;
-            ID = failingCaptureCount;
             this.model = model;
             RunName = runViewModel.RunName;
             specPath = string.Format(Globals.RUN_PATH, runViewModel.RunName) + model.SpecCapturePath;
@@ -167,15 +165,6 @@ namespace AFTViewer.ViewModel
             get => backgroundColor;
             set => SetProperty(ref backgroundColor, value);
         }
-
-        private int id;
-        public int ID
-        {
-            get => id;
-            set => SetProperty(ref id, value);
-        }
-
-        private static int failingCaptureCount;
 
         //private bool isSelected;
         ///// <summary>
