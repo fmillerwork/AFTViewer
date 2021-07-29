@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Runs échouées" Height="450" Width="800">
     <DockPanel>
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4">
             <Button Margin="4" Click="RemoveRunError_Click" Padding="4">
                 <Image Source="../../Images/bin.png" Width="20"/>
             </Button>
