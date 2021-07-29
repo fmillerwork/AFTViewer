@@ -1,10 +1,10 @@
-﻿using AFTViewer.Helpers;
+﻿using AFTViewer.Utils;
 using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using TFAScriptTool.Models;
+using AFTViewer.Model;
 using Brush = System.Windows.Media.Brush;
 
 namespace AFTViewer.ViewModel

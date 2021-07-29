@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace AFTViewer.Helpers
+namespace AFTViewer.Utils
 {
     public class Observable : INotifyPropertyChanged
     {

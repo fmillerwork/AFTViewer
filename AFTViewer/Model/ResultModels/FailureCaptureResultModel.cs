@@ -1,6 +1,6 @@
 ﻿using static AFTViewer.ViewModel.FailureCaptureViewModel;
 
-namespace TFAScriptTool.Models
+namespace AFTViewer.Model
 {
     /// <summary>
     /// Représente une capture d'échec avec son chemin et son état (vérifiée, non vérifiée ou faux positif)

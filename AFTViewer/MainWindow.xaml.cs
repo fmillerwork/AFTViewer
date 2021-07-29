@@ -1,4 +1,6 @@
-﻿using AFTViewer.ViewModel;
+﻿using AFTViewer.Utils;
+using AFTViewer.View;
+using AFTViewer.ViewModel;
 using System.Windows;
 
 namespace AFTViewer
@@ -8,6 +10,8 @@ namespace AFTViewer
     /// </summary>
     public partial class MainWindow : Window
     {
+        private FailedRunsWindow failedRunsWindow;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -17,7 +21,7 @@ namespace AFTViewer
         private void RemoveRun_Click(object sender, RoutedEventArgs e)
         {
             var dataContext = (MainViewModel)DataContext;
-            if(dataContext.Runs.Count > 0)
+            if (dataContext.Runs.Count > 0)
             {
                 MessageBoxResult messageBoxResult = MessageBox.Show("Êtes-vous sûr(e) ?", "Confirmation de suppression", MessageBoxButton.YesNo);
                 if (messageBoxResult == MessageBoxResult.Yes)
@@ -26,21 +30,39 @@ namespace AFTViewer
                 }
             }
         }
-        
+
         private void RefreshRun_Click(object sender, RoutedEventArgs e)
         {
             ((MainViewModel)DataContext).ReloadRuns();
         }
-        
+
         private void PrevRun_Click(object sender, RoutedEventArgs e)
         {
             ((MainViewModel)DataContext).SetPrevRun();
         }
-        
+
         private void NextRun_Click(object sender, RoutedEventArgs e)
         {
             ((MainViewModel)DataContext).SetNextRun();
         }
 
+        private void FailedRunsDisplay_Click(object sender, RoutedEventArgs e)
+        {
+            // Création
+            if (failedRunsWindow == null || !failedRunsWindow.IsVisible)
+            {
+                failedRunsWindow = new FailedRunsWindow()
+                {
+                    DataContext = new MainErrorViewModel(),
+                    Topmost = true
+                };
+                failedRunsWindow.Show();
+            }
+        }
+
+        private void Window_Closed(object sender, System.EventArgs e)
+        {
+            failedRunsWindow?.Close();
+        }
     }
 }

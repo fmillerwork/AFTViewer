@@ -1,10 +1,10 @@
-﻿using AFTViewer.Helpers;
+﻿using AFTViewer.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
-using TFAScriptTool.Models;
+using AFTViewer.Model;
 using static AFTViewer.ViewModel.FailureCaptureViewModel;
 
 namespace AFTViewer.ViewModel

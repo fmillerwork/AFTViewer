@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AFTViewer.Utils;
 using System.Collections.ObjectModel;
-using AFTViewer.Helpers;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using System.Windows;
+using System.Linq;
 
 namespace AFTViewer.ViewModel
 {
@@ -77,7 +72,7 @@ namespace AFTViewer.ViewModel
 
         public void SetPrevRun()
         {
-            if(Runs.Count > 0)
+            if (Runs.Count > 0)
             {
                 var runIndex = Runs.IndexOf(SelectedRun);
                 if (runIndex != 0)

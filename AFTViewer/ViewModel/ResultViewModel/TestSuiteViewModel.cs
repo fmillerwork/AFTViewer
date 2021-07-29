@@ -1,6 +1,6 @@
-﻿using AFTViewer.Helpers;
+﻿using AFTViewer.Utils;
 using System.Collections.ObjectModel;
-using TFAScriptTool.Models;
+using AFTViewer.Model;
 
 namespace AFTViewer.ViewModel
 {

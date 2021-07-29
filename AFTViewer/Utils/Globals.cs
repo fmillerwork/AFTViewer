@@ -2,7 +2,7 @@
 using System.Collections.Specialized;
 using System;
 
-namespace AFTViewer.Helpers
+namespace AFTViewer.Utils
 {
     public static class Globals
     {

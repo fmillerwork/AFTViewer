@@ -12,6 +12,7 @@
     <None Remove="Images\calendar.png" />
     <None Remove="Images\collapse.png" />
     <None Remove="Images\down-arrow.png" />
+    <None Remove="Images\error.png" />
     <None Remove="Images\expand.png" />
     <None Remove="Images\file.png" />
     <None Remove="Images\folder.png" />
@@ -40,6 +41,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\down-arrow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\error.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\expand.png">

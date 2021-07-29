@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Windows.Media.Imaging;
-using TFAScriptTool.Models;
+using AFTViewer.Model;
 
-namespace AFTViewer.Helpers
+namespace AFTViewer.Utils
 {
     public class Helper
     {
@@ -22,13 +22,42 @@ namespace AFTViewer.Helpers
                 string json;
                 foreach (var dir in runDirs)
                 {
-                    if (File.Exists(dir + @"\_result.json"))
+                    var filePath = dir + @"\_result.json";
+                    if (File.Exists(filePath))
                     {
-                        json = File.ReadAllText(dir + @"\_result.json");
+                        json = File.ReadAllText(filePath);
                         runResultModels.Add((RunResultModel)JsonSerializer.Deserialize(json, typeof(RunResultModel)));
                     } 
                 }
                 return runResultModels;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Charge les runs depuis le dossier de sauvegarde.
+        /// </summary>
+        /// <returns></returns>
+        public static List<RunErrorModel> LoadRunErrors()
+        {
+            try
+            {
+                var runErrorModels = new List<RunErrorModel>();
+                var runDirs = Directory.GetDirectories(Globals.RUNS_PATH);
+                string json;
+                foreach (var dir in runDirs)
+                {
+                    var filePath = dir + @"\_error.json";
+                    if (File.Exists(filePath))
+                    {
+                        json = File.ReadAllText(filePath);
+                        runErrorModels.Add((RunErrorModel)JsonSerializer.Deserialize(json, typeof(RunErrorModel)));
+                    }
+                }
+                return runErrorModels;
             }
             catch (Exception)
             {
