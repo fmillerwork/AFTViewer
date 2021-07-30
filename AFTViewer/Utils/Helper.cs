@@ -50,11 +50,20 @@ namespace AFTViewer.Utils
                 string json;
                 foreach (var dir in runDirs)
                 {
-                    var filePath = dir + @"\_error.json";
-                    if (File.Exists(filePath))
+                    var errorFilePath = dir + @"\_error.json";
+                    var resultFilePath = dir + @"\_result.json";
+                    if (File.Exists(errorFilePath))
                     {
-                        json = File.ReadAllText(filePath);
+                        json = File.ReadAllText(errorFilePath);
                         runErrorModels.Add((RunErrorModel)JsonSerializer.Deserialize(json, typeof(RunErrorModel)));
+                    }
+                    else if (!File.Exists(resultFilePath))
+                    {
+                        runErrorModels.Add(new RunErrorModel()
+                        {
+                            ErrorMessage = "Fichier _error.json ou _result.json manquant !",
+                            TimeStamp = dir.Split(@"\")[^1]
+                        });
                     }
                 }
                 return runErrorModels;
