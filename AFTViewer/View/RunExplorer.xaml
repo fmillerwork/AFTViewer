@@ -76,7 +76,7 @@
                     <TextBlock Margin="5" VerticalAlignment="Center">Capture :</TextBlock>
                     <TextBlock Margin="0,0,10,0" FontWeight="Bold" VerticalAlignment="Center" Text="{Binding SelectedCapture.CaptureName}"></TextBlock>
                     <TextBlock Margin="5" VerticalAlignment="Center">État :</TextBlock>
-                    <TextBlock Margin="0,0,10,0" FontWeight="Bold" Foreground="{Binding StateTextColor}" VerticalAlignment="Center" Text="{Binding StringState}"></TextBlock>
+                    <TextBlock Margin="0,0,10,0" FontWeight="Bold" Foreground="{Binding SelectedCapture.StateTextColor}" VerticalAlignment="Center" Text="{Binding SelectedCapture.StringState}"></TextBlock>
                 </StackPanel>
                 
                 <!--Navigation-->
