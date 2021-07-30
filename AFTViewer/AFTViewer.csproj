@@ -71,7 +71,7 @@
 
   <ItemGroup>
     <Compile Update="Utils\Globals.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
 
