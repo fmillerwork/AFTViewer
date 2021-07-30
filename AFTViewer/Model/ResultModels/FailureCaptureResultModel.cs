@@ -11,8 +11,8 @@ namespace AFTViewer.Model
         public string SpecCapturePath { get; set; }
         public string FailureCaptureName { get; set; }
         public string CapturePath { get; set; }
+        public string Comment { get; set; }
         public FailureState State { get; set; }
-
 
     }
 }

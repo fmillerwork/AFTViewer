@@ -8,16 +8,16 @@
         Title="Runs échouées" Height="450" Width="800">
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4">
-            <Button Margin="4" Click="RemoveRunError_Click" Padding="4">
+            <Button Margin="4" Click="RemoveRunError_Click" Padding="4" ToolTip="Supprimer la run échouée sélectionnée">
                 <Image Source="../../Images/bin.png" Width="20"/>
             </Button>
-            <Button Margin="4" Click="RefreshRunErrors_Click" Padding="4">
+            <Button Margin="4" Click="RefreshRunErrors_Click" Padding="4" ToolTip="Recharger les runs échouées">
                 <Image Source="../../Images/refresh.png" Width="20"/>
             </Button>
-            <Button Margin="4" Click="PrevRunError_Click" Padding="4">
+            <Button Margin="4" Click="PrevRunError_Click" Padding="4" ToolTip="Passer à la run échouée antérieure">
                 <Image Source="../../Images/up-arrow.png" Width="20"/>
             </Button>
-            <Button Margin="4" Click="NextRunError_Click" Padding="4">
+            <Button Margin="4" Click="NextRunError_Click" Padding="4" ToolTip="Passer à la run échouée postérieure">
                 <Image Source="../../Images/down-arrow.png" Width="20"/>
             </Button>
         </StackPanel>

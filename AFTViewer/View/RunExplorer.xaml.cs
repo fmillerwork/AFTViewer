@@ -174,6 +174,17 @@ namespace AFTViewer.View
             }
         }
         #endregion
+
         #endregion
+
+        /// <summary>
+        /// Attention => peut causer des lags !!
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CommentTextBox_TextChanged(object sender, RoutedEventArgs e)
+        {
+            Helper.SaveChanges(((RunViewModel)DataContext).Model);
+        }
     }
 }

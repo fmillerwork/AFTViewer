@@ -13,10 +13,10 @@
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                 <TextBlock DockPanel.Dock="Top" x:Name="RemaningUnmanagedFailures" Margin="4" FontWeight="Bold" Foreground="Red" Text="{Binding UnVerifiedFailuresCount}" VerticalAlignment="Center"></TextBlock>
                 <TextBlock DockPanel.Dock="Top" Margin="4" VerticalAlignment="Center" Text="échecs restants à traiter."></TextBlock>
-                <Button Margin="4" Padding="4" Click="ExpandTreeView_Click">
+                <Button Margin="4" Padding="4" Click="ExpandTreeView_Click" ToolTip="Tout développer">
                     <Image Source="../Images/expand.png" Width="15"/>
                 </Button>
-                <Button Margin="4" Padding="4" Click="CollapseTreeView_Click">
+                <Button Margin="4" Padding="4" Click="CollapseTreeView_Click" ToolTip="Tout réduire">
                     <Image Source="../Images/collapse.png" Width="15"/>
                 </Button>
             </StackPanel>
@@ -64,7 +64,12 @@
         </DockPanel>
         <Border HorizontalAlignment="Center" Margin="4" DockPanel.Dock="Bottom" CornerRadius="2" BorderBrush="Black" BorderThickness="1">
             <StackPanel Orientation="Vertical" Margin="4" HorizontalAlignment="Center">
-
+                <!--Commentaire-->
+                <StackPanel  Margin="8">
+                    <TextBlock Text="Commentaire" HorizontalAlignment="Center" FontSize="14"/>
+                    <TextBox Text="{Binding SelectedCapture.Comment, UpdateSourceTrigger=PropertyChanged}" TextChanged="CommentTextBox_TextChanged" Height="50"/>
+                </StackPanel>
+                
                 <!--Informations capture-->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBlock Margin="5" VerticalAlignment="Center">Run :</TextBlock>
@@ -81,17 +86,17 @@
                 
                 <!--Navigation-->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="Vérif précédente" Margin="4" Padding="8,4" Click="PreviousVerif_Click" FontSize="16"/>
-                    <Button Content="Capture précédente" Margin="4" Padding="8,4" Click="PreviousFailure_Click" FontSize="16"/>
-                    <Button Content="Capture suivante" Margin="4" Padding="8,4" Click="NextFailure_Click" FontSize="16"/>
-                    <Button Content="Vérif suivante" Margin="4" Padding="8,4" Click="NextVerif_Click" FontSize="16"/>
+                    <Button Content="Vérif précédente" ToolTip="Passer à la demande de vérification précédente. Passe à la capture précédente si toutes les captures sont vérifiées." Margin="4" Padding="8,4" Click="PreviousVerif_Click" FontSize="16"/>
+                    <Button Content="Capture précédente" ToolTip="Passe à capture précédente." Margin="4" Padding="8,4" Click="PreviousFailure_Click" FontSize="16"/>
+                    <Button Content="Capture suivante" ToolTip="Passe à capture suivante." Margin="4" Padding="8,4" Click="NextFailure_Click" FontSize="16"/>
+                    <Button Content="Vérif suivante" ToolTip="Passe à la demande de vérification suivante. Passe à la capture suivante si toutes les captures sont vérifiées." Margin="4" Padding="8,4" Click="NextVerif_Click" FontSize="16"/>
                 </StackPanel>
 
                 <!--Choix-->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="20">
-                    <Button x:Name="ValidateButton" Content="{Binding SelectedCapture.ValidateButtonContent}" Margin="4" Padding="8,4" Click="ValidateFailure_Click" FontSize="14" FontWeight="Bold" Background="{Binding SelectedCapture.ValidateButtonBackground}" Foreground="White"/>
-                    <Button x:Name="FalsePositiveButton" Content="{Binding SelectedCapture.FalsePositiveButtonContent}" Margin="4" Padding="8,4" Click="FalsePositive_Click" FontSize="14" FontWeight="Bold" Background="{Binding SelectedCapture.FalsePositiveButtonBackground}" Foreground="White"/>
-                    <Button Content="Remplacer la spécification" Margin="4" Padding="8,4" Click="OverrideSpec_Click" FontWeight="Bold" FontSize="14" Background="Gray" Foreground="White"/>
+                    <Button x:Name="ValidateButton" Content="{Binding SelectedCapture.ValidateButtonContent}" ToolTip="{Binding SelectedCapture.ValidateButtonToolTip}" Margin="4" Padding="8,4" Click="ValidateFailure_Click" FontSize="14" FontWeight="Bold" Background="{Binding SelectedCapture.ValidateButtonBackground}" Foreground="White"/>
+                    <Button x:Name="FalsePositiveButton" Content="{Binding SelectedCapture.FalsePositiveButtonContent}" ToolTip="{Binding SelectedCapture.FalsePositiveButtonToolTip}" Margin="4" Padding="8,4" Click="FalsePositive_Click" FontSize="14" FontWeight="Bold" Background="{Binding SelectedCapture.FalsePositiveButtonBackground}" Foreground="White"/>
+                    <Button Content="Remplacer la spécification" ToolTip="Remplace la spécification actuelle (image de gauche) par la capture de droite." Margin="4" Padding="8,4" Click="OverrideSpec_Click" FontWeight="Bold" FontSize="14" Background="Gray" Foreground="White"/>
                 </StackPanel>
             </StackPanel>
         </Border>

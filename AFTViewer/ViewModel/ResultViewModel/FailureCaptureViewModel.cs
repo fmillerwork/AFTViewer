@@ -51,6 +51,8 @@ namespace AFTViewer.ViewModel
                 OnPropertyChanged(nameof(FalsePositiveButtonContent)); 
                 OnPropertyChanged(nameof(ValidateButtonBackground)); 
                 OnPropertyChanged(nameof(FalsePositiveButtonBackground)); 
+                OnPropertyChanged(nameof(ValidateButtonToolTip)); 
+                OnPropertyChanged(nameof(FalsePositiveButtonToolTip)); 
             }
         }
 
@@ -72,7 +74,7 @@ namespace AFTViewer.ViewModel
                 FailureState.Recognized => "Red",
                 FailureState.FalsePositive => "Green",
                 FailureState.UnVerified => "Orange",
-                _ => "Yellow",
+                _ => "Orange",
             };
         }
 
@@ -81,7 +83,7 @@ namespace AFTViewer.ViewModel
         {
             get => State switch
             {
-                FailureState.Recognized => "Non verifié",
+                FailureState.Recognized => "Non verifiée",
                 _ => "Valider échec",
             };
         }
@@ -90,7 +92,7 @@ namespace AFTViewer.ViewModel
         {
             get => State switch
             {
-                FailureState.FalsePositive => "Non verifié",
+                FailureState.FalsePositive => "Non verifiée",
                 _ => "Faux positif",
             };
         }
@@ -113,6 +115,23 @@ namespace AFTViewer.ViewModel
             };
         }
 
+        public string ValidateButtonToolTip
+        {
+            get => State switch
+            {
+                FailureState.Recognized => "Passe l'état de la capture à \"Non vérifiée\"",
+                _ => "Passe l'état de la capture à \"Avérée\"",
+            };
+        }
+
+        public string FalsePositiveButtonToolTip
+        {
+            get => State switch
+            {
+                FailureState.FalsePositive => "Passe l'état de la capture à \"Non vérifiée\"",
+                _ => "Passe l'état de la capture à \"Faux positif\"",
+            };
+        }
         #endregion
 
         private string runName;
@@ -138,6 +157,12 @@ namespace AFTViewer.ViewModel
         public string CaptureName
         {
             get => model.FailureCaptureName.Split('.')[0];
+        }
+
+        public string Comment
+        {
+            get => model.Comment;
+            set { model.Comment = value; OnPropertyChanged(); }
         }
 
         private ImageSource failureCaptureSource;

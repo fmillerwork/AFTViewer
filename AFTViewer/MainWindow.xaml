@@ -9,7 +9,7 @@
         Title="AFTViewer" Height="800" Width="1500" Closed="Window_Closed">
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4">
-            <ComboBox HorizontalAlignment="Left" Margin="4" ItemsSource="{Binding Runs}" SelectedItem="{Binding SelectedRun}" Width="Auto" >
+            <ComboBox HorizontalAlignment="Left" ToolTip="Liste des runs valides" Margin="4" ItemsSource="{Binding Runs}" SelectedItem="{Binding SelectedRun}" Width="Auto" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -19,19 +19,19 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <Button Margin="4" Click="RemoveRun_Click" Padding="4">
+            <Button Margin="4" Click="RemoveRun_Click" Padding="4" ToolTip="Supprimer la run sélectionnée">
                 <Image Source="Images/bin.png" Width="20"/>
             </Button>
-            <Button Margin="4" Click="RefreshRun_Click" Padding="4">
+            <Button Margin="4" Click="RefreshRun_Click" Padding="4" ToolTip="Recharger toutes les runs valides">
                 <Image Source="Images/refresh.png" Width="20"/>
             </Button>
-            <Button Margin="4" Click="PrevRun_Click" Padding="4">
+            <Button Margin="4" Click="PrevRun_Click" Padding="4" ToolTip="Passer à la run antérieure">
                 <Image Source="Images/up-arrow.png" Width="20"/>
             </Button>
-            <Button Margin="4" Click="NextRun_Click" Padding="4">
+            <Button Margin="4" Click="NextRun_Click" Padding="4" ToolTip="Passer à la run postérieure">
                 <Image Source="Images/down-arrow.png" Width="20"/>
             </Button>
-            <Button Margin="4" Click="FailedRunsDisplay_Click" Padding="4">
+            <Button Margin="4" Click="FailedRunsDisplay_Click" Padding="4" ToolTip="Afficher les runs échouées">
                 <Image Source="Images/error.png" Width="20"/>
             </Button>
         </StackPanel>
