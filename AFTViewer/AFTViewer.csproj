@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="App.config" />
     <None Remove="Images\bin.png" />
     <None Remove="Images\calendar.png" />
     <None Remove="Images\collapse.png" />
@@ -21,12 +20,6 @@
     <None Remove="Images\instruction.png" />
     <None Remove="Images\refresh.png" />
     <None Remove="Images\up-arrow.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="App.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -74,6 +67,18 @@
     <Resource Include="Images\up-arrow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Utils\Globals.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="App.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
