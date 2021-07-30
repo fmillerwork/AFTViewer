@@ -9,7 +9,7 @@ namespace AFTViewer.Utils
         /// <summary>
         /// Chemin de base
         /// </summary>
-        public static string BASE_PATH = ConfigurationManager.AppSettings.Get("basePath");
+        public static string BASE_PATH = Environment.ExpandEnvironmentVariables(ConfigurationManager.AppSettings.Get("basePath"));
 
         /// <summary>
         /// "Scripts\"
