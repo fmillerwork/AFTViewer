@@ -207,7 +207,7 @@ namespace AFTViewer.ViewModel
                 if (File.Exists(specPath))
                     File.Delete(specPath);
                 newSpec.Save(specPath);
-
+                newSpec.Dispose();
                 SpecCaptureSource = Helper.LoadImage(specPath);
             }
             catch (Exception)
