@@ -1,6 +1,8 @@
 ﻿using AFTViewer.Utils;
 using AFTViewer.ViewModel;
+using System.Diagnostics;
 using System.Reflection;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -15,9 +17,12 @@ namespace AFTViewer.View
     /// </summary>
     public partial class RunExplorer : UserControl
     {
+        private Timer timer;
         public RunExplorer()
         {
             InitializeComponent();
+            timer = new Timer(500);
+
         }
         private void ResultTreeView_ItemClicked(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -161,7 +166,7 @@ namespace AFTViewer.View
             }
         }
 
-        #region SubEvent
+        #region Methods
         private void UnVerified_Click()
         {
             var dataContext = (RunViewModel)DataContext;
@@ -170,21 +175,34 @@ namespace AFTViewer.View
                 dataContext.UpdateState(FailureState.UnVerified);
                 Helper.SaveChanges(dataContext.Model);
 
-                //runViewModel.SetNextSelectedCapture(true);
             }
+        }
+
+        private void SetSaveTimer()
+        {
+            timer = new Timer(500);
+
+            timer.Elapsed += SaveChanges;
+            timer.AutoReset = false;
+            timer.Enabled = true;
+        }
+        private void SaveChanges(object sender, ElapsedEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                Helper.SaveChanges(((RunViewModel)DataContext).Model);
+            });
+            Debug.WriteLine("ok");
         }
         #endregion
 
         #endregion
 
-        /// <summary>
-        /// Attention => peut causer des lags !!
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void CommentTextBox_TextChanged(object sender, RoutedEventArgs e)
         {
-            Helper.SaveChanges(((RunViewModel)DataContext).Model);
+            if (timer != null)
+                timer.Stop();
+            SetSaveTimer();
         }
     }
 }
