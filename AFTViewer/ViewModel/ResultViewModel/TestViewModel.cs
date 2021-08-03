@@ -12,14 +12,18 @@ namespace AFTViewer.ViewModel
         public TestViewModel(TestResultModel model, RunViewModel runViewModel, string testSuiteName)
         {
             this.model = model;
-            FailureCaptureViewModels = new ObservableCollection<FailureCaptureViewModel>();
+            FailureViewModels = new ObservableCollection<FailureBaseViewModel>();
             foreach (var failureCapture in model.FailureCaptures)
             {
-                FailureCaptureViewModels.Add(new FailureCaptureViewModel(failureCapture, runViewModel, testSuiteName, TestName));
+                FailureViewModels.Add(new FailureCaptureViewModel(failureCapture, runViewModel, testSuiteName, TestName));
+            }
+            foreach (var failedAssert in model.FailureAsserts)
+            {
+                FailureViewModels.Add(new FailedAssertViewModel(failedAssert, runViewModel, testSuiteName, TestName));
             }
         }
 
-        public ObservableCollection<FailureCaptureViewModel> FailureCaptureViewModels { get; set; }
+        public ObservableCollection<FailureBaseViewModel> FailureViewModels { get; set; }
         public string TestName
         {
             get => model.TestName;
@@ -36,9 +40,9 @@ namespace AFTViewer.ViewModel
                 if (captureModel.FailureCaptureName.Split('.')[0] == failureCaptureName)
                 {
                     model.FailureCaptures.Remove(captureModel);
-                    if (FailureCaptureViewModels.ElementAt(captureVMIndex).State == FailureCaptureViewModel.FailureState.UnVerified)
+                    if (FailureViewModels.ElementAt(captureVMIndex).State == FailureBaseViewModel.FailureState.UnVerified)
                         resolvedUnVerifiedFailuresCount++;
-                    FailureCaptureViewModels.RemoveAt(captureVMIndex);
+                    FailureViewModels.RemoveAt(captureVMIndex);
                     return resolvedUnVerifiedFailuresCount;
                 }
             }

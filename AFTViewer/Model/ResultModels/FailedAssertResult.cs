@@ -2,7 +2,7 @@
 
 namespace AFTViewer.Model
 {
-    public class FailedAssertResult
+    public class FailedAssertResult : FailureModel
     {
         public AssertType Type { get; set; }
         public string Name { get; set; }
@@ -14,6 +14,7 @@ namespace AFTViewer.Model
             Name = name;
             Description = description;
         }
+
         public enum AssertType
         {
             Text,
