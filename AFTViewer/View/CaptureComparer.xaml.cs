@@ -6,9 +6,9 @@ namespace AFTViewer.View
     /// <summary>
     /// Logique d'interaction pour Comparer.xaml
     /// </summary>
-    public partial class Comparer : UserControl
+    public partial class CaptureComparer : UserControl
     {
-        public Comparer()
+        public CaptureComparer()
         {
             InitializeComponent();
         }

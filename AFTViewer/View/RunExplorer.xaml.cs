@@ -1,14 +1,10 @@
 ﻿using AFTViewer.Utils;
 using AFTViewer.ViewModel;
 using System.Diagnostics;
-using System.Reflection;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Media;
-using static AFTViewer.ViewModel.FailureCaptureViewModel;
+using static AFTViewer.ViewModel.FailureBaseViewModel;
 
 namespace AFTViewer.View
 {
@@ -26,10 +22,15 @@ namespace AFTViewer.View
         }
         private void ResultTreeView_ItemClicked(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (ResultTreeView.SelectedItem is FailureCaptureViewModel selectedFailureCapture)
+            var dataContext = (RunViewModel)DataContext;
+            dataContext.SelectedFailure = (FailureBaseViewModel)ResultTreeView.SelectedItem;
+            if(dataContext.SelectedFailure is FailureCaptureViewModel failureCapture)
             {
-                var dataContext = (RunViewModel)DataContext;
-                dataContext.SelectedCapture = selectedFailureCapture;
+
+            }
+            else if(dataContext.SelectedFailure is FailedAssertViewModel failedAssert)
+            {
+                //OverrideSpecButton
             }
         }
 
@@ -100,14 +101,14 @@ namespace AFTViewer.View
         private void ValidateFailure_Click(object sender, RoutedEventArgs e)
         {
             var dataContext = (RunViewModel)DataContext;
-            if (dataContext != null && dataContext.SelectedCapture != null)
+            if (dataContext != null && dataContext.SelectedFailure != null)
             {
 
-                if (dataContext.SelectedCapture.State != FailureState.Recognized)
+                if (dataContext.SelectedFailure.State != FailureState.Recognized)
                 {
                     if (dataContext != null)
                     {
-                        var initialState = dataContext.SelectedCapture.State;
+                        var initialState = dataContext.SelectedFailure.State;
                         dataContext.UpdateState(FailureState.Recognized);
                         Helper.SaveChanges(dataContext.Model);
 
@@ -126,14 +127,14 @@ namespace AFTViewer.View
         private void FalsePositive_Click(object sender, RoutedEventArgs e)
         {
             var dataContext = (RunViewModel)DataContext;
-            if (dataContext != null && dataContext.SelectedCapture != null)
+            if (dataContext != null && dataContext.SelectedFailure != null)
             {
                 // Si capture est non vérifiée ou faux positif
-                if (dataContext.SelectedCapture.State != FailureState.FalsePositive)
+                if (dataContext.SelectedFailure.State != FailureState.FalsePositive)
                 {
                     if (dataContext != null)
                     {
-                        var initialState = dataContext.SelectedCapture.State;
+                        var initialState = dataContext.SelectedFailure.State;
                         dataContext.UpdateState(FailureState.FalsePositive);
                         Helper.SaveChanges(dataContext.Model);
 
@@ -152,15 +153,18 @@ namespace AFTViewer.View
         private void OverrideSpec_Click(object sender, RoutedEventArgs e)
         {
             var dataContext = (RunViewModel)DataContext;
-            if (dataContext != null && dataContext.SelectedCapture != null)
+            if(dataContext.SelectedFailure is FailureCaptureViewModel capture)
             {
-                MessageBoxResult messageBoxResult = MessageBox.Show("Êtes-vous sûr(e) ?", "Confirmation de remplacement de spécification", MessageBoxButton.YesNo);
-                if (messageBoxResult == MessageBoxResult.Yes)
+                if (dataContext != null && capture != null)
                 {
-                    if (dataContext != null)
+                    MessageBoxResult messageBoxResult = MessageBox.Show("Êtes-vous sûr(e) ?", "Confirmation de remplacement de spécification", MessageBoxButton.YesNo);
+                    if (messageBoxResult == MessageBoxResult.Yes)
                     {
-                        dataContext.OverrideSpecCapture(dataContext.SelectedCapture);
-                        Helper.SaveChanges(dataContext.Model);
+                        if (dataContext != null)
+                        {
+                            dataContext.OverrideSpecCapture(capture);
+                            Helper.SaveChanges(dataContext.Model);
+                        }
                     }
                 }
             }
@@ -192,7 +196,6 @@ namespace AFTViewer.View
             {
                 Helper.SaveChanges(((RunViewModel)DataContext).Model);
             });
-            Debug.WriteLine("ok");
         }
         #endregion
 

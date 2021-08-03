@@ -59,12 +59,15 @@ namespace AFTViewer.ViewModel
                 {
                     foreach (var test in suite.TestViewModels)
                     {
-                        foreach (var capture in test.FailureCaptureViewModels)
+                        foreach (var capture in test.FailureViewModels)
                         {
-                            if (capture.CaptureName == failureCaptureName)
+                            if(capture is FailureCaptureViewModel c)
                             {
-                                var specPath = string.Format(Globals.RUN_PATH, capture.RunName) + capture.Model.SpecCapturePath;
-                                capture.SpecCaptureSource = Helper.LoadImage(specPath);
+                                if (c.Name == failureCaptureName)
+                                {
+                                    var specPath = string.Format(Globals.RUN_PATH, capture.RunName) + c.Model.SpecCapturePath;
+                                    c.SpecCaptureSource = Helper.LoadImage(specPath);
+                                }
                             }
                         }
                     }
