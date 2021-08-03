@@ -14,44 +14,49 @@ namespace AFTViewer.Utils
         /// <summary>
         /// "Scripts\"
         /// </summary>
-        public static string SCRIPTS_PATH =         BASE_PATH + @"Scripts\";
+        public static string SCRIPTS_PATH =             BASE_PATH + @"Scripts\";
 
         /// <summary>
         /// "CapturesTFA\"
         /// </summary>
-        public static string CAPTURE_PATH =         BASE_PATH + @"CapturesTFA\";
+        public static string CAPTURE_PATH =             BASE_PATH + @"TFA\";
 
         /// <summary>
         /// "CapturesTFA\Specs\{0}\"
         /// </summary>
-        public static string TEST_SPECS_PATH =      BASE_PATH + @"CapturesTFA\Specs\{0}\";
+        public static string TEST_SPECS_PATH =          BASE_PATH + @"TFA\Specs\{0}\";
 
         /// <summary>
         /// "CapturesTFA\Runs\"
         /// Ne pas confondre avec RUN_PATH !
         /// </summary>
-        public static string RUNS_PATH =            BASE_PATH + @"CapturesTFA\Runs\";
+        public static string RUNS_PATH =                BASE_PATH + @"TFA\Runs\";
 
         /// <summary>
         /// "CapturesTFA\Runs\{0}\"
         /// Ne pas confondre avec RUNS_PATH !
         /// </summary>
-        public static string RUN_PATH =             BASE_PATH + @"CapturesTFA\Runs\{0}\";
+        public static string RUN_PATH =                 BASE_PATH + @"TFA\Runs\{0}\";
 
         /// <summary>
         /// "CapturesTFA\Runs\{0}\{1}\"
         /// </summary>
-        public static string TESTSUITE_PATH =       BASE_PATH + @"CapturesTFA\Runs\{0}\{1}\";
+        public static string TESTSUITE_PATH =           BASE_PATH + @"TFA\Runs\{0}\{1}\";
 
         /// <summary>
         /// "CapturesTFA\Runs\{0}\{1}\{2}\"
         /// </summary>
-        public static string TEST_PATH =            BASE_PATH + @"CapturesTFA\Runs\{0}\{1}\{2}\";
+        public static string TEST_PATH =                BASE_PATH + @"TFA\Runs\{0}\{1}\{2}\";
+
+        /// <summary>
+        /// "CapturesTFA\Runs\{0}\{1}\{2}\_Asserts\\"
+        /// </summary>
+        public static string ASSERT_FAILURES_PATH =    BASE_PATH + @"TFA\Runs\{0}\{1}\{2}\_Asserts\";
 
         /// <summary>
         /// "CapturesTFA\Runs\{0}\{1}\{2}\_Failures\"
         /// </summary>
-        public static string TEST_FAIURES_PATH =    BASE_PATH + @"CapturesTFA\Runs\{0}\{1}\{2}\_Failures\";
+        public static string CAPTURE_FAIURES_PATH =     BASE_PATH + @"TFA\Runs\{0}\{1}\{2}\_Failures\";
 
         public const string DATE_FORMAT = "yyyy-MM-dd HH'h'mm'min'ss's'";
         public const string FAILURE_EXTENSION = ".fail.png";

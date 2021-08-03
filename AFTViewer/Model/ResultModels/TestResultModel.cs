@@ -23,5 +23,10 @@ namespace AFTViewer.Model
         /// Liste des FailureCaptures.
         /// </summary>
         public List<FailureCaptureResultModel> FailureCaptures { get; set; }
+
+        /// <summary>
+        /// Liste des Assertions en échec.
+        /// </summary>
+        public List<FailedAssertResult> FailureAsserts { get; set; }
     }
 }
