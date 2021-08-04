@@ -9,12 +9,16 @@
         Title="AFTViewer" Height="800" Width="1500" Closed="Window_Closed">
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4">
-            <ComboBox HorizontalAlignment="Left" ToolTip="Liste des runs valides" Margin="4" ItemsSource="{Binding Runs}" SelectedItem="{Binding SelectedRun}" Width="Auto" >
+            <ComboBox HorizontalAlignment="Left" ToolTip="Liste des runs valides (nombre d'échecs non vérifiés|nombre d'échecs avérés)" Margin="4" ItemsSource="{Binding Runs}" SelectedItem="{Binding SelectedRun}" Width="Auto" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="Images\calendar.png" Margin="0,0,5,0" Stretch="Uniform" Height="20"/>
-                            <TextBlock Text="{Binding RunName}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding RunName}" FontWeight="DemiBold" VerticalAlignment="Center" Foreground="{Binding ForegroundColor}"/>
+                            <TextBlock Text="    " FontWeight="DemiBold" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding UnVerifiedFailuresCount}" FontWeight="DemiBold" VerticalAlignment="Center" Foreground="DarkOrange"/>
+                            <TextBlock Text=" | " FontWeight="DemiBold" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding FailureCount}" FontWeight="DemiBold" VerticalAlignment="Center" Foreground="Red"/>
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>

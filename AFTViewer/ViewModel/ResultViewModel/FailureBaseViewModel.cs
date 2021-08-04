@@ -82,9 +82,9 @@ namespace AFTViewer.ViewModel
         {
             get => State switch
             {
-                FailureState.Recognized => "Avérée",
+                FailureState.Recognized => "Avéré",
                 FailureState.FalsePositive => "Faux positif",
-                FailureState.UnVerified => "Non vérifiée",
+                FailureState.UnVerified => "Non vérifié",
                 _ => "Non défini",
             };
         }

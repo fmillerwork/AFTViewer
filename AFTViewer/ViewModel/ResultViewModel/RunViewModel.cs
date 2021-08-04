@@ -37,13 +37,13 @@ namespace AFTViewer.ViewModel
         public int UnVerifiedFailuresCount
         {
             get => model.UnVerifiedFailuresCount;
-            set { model.UnVerifiedFailuresCount = value; OnPropertyChanged(); }
+            set { model.UnVerifiedFailuresCount = value; OnPropertyChanged(); OnPropertyChanged(nameof(ForegroundColor)); }
         }
 
         public int FailureCount
         {
             get => model.FailureCount;
-            set { model.FailureCount = value; OnPropertyChanged(); }
+            set { model.FailureCount = value; OnPropertyChanged(); OnPropertyChanged(nameof(ForegroundColor)); }
         }
 
         public RunResultModel Model { get => model; }
@@ -51,6 +51,17 @@ namespace AFTViewer.ViewModel
         public string RunName
         {
             get => model.TimeStamp;
+        }
+
+        public Brush ForegroundColor
+        {
+            get
+            {
+                if (FailureCount == 0 && UnVerifiedFailuresCount == 0)
+                    return Brushes.Green;
+                else
+                    return Brushes.Black;
+            }
         }
 
         private MainViewModel mainViewModel;
@@ -222,7 +233,9 @@ namespace AFTViewer.ViewModel
                         // Si capture trouvée, suppression capture dans le test.
                         if (failureCapture.TestName == currentTest.TestName)
                         {
-                            UnVerifiedFailuresCount -= currentTest.DeleteFailureCapture(failureCapture.Name);
+                            var removeCount = currentTest.DeleteFailureCapture(failureCapture.Name);
+                            UnVerifiedFailuresCount -= removeCount;
+                            FailureCount -= removeCount;
                             deleted = true;
                         }
 
@@ -255,10 +268,11 @@ namespace AFTViewer.ViewModel
                 {
                     SetSelectedCaptureOnFirstUnverifiedCapture();
                 }
-                else
-                {
-                    MainViewModel.DeleteSelectedRun();
-                }
+                
+                //else
+                //{
+                //    MainViewModel.DeleteSelectedRun();
+                //}
             }
         }
 
@@ -275,15 +289,13 @@ namespace AFTViewer.ViewModel
             else if (newState == FailureState.UnVerified)
                 UnVerifiedFailuresCount++;
 
-            SelectedFailure.State = newState;
-
-            // *** PAS UTILE POUR LE MOMENT - A actualiser si besoin de FailureCount
-            // Nouvel état
-            if (SelectedFailure.State == FailureState.FalsePositive)
-                FailureCount--;
-            else if (SelectedFailure.State == FailureState.Recognized)
+            if (newState == FailureState.Recognized)
                 FailureCount++;
-            // ***
+            else if((newState  == FailureState.FalsePositive || newState == FailureState.UnVerified) && SelectedFailure.State == FailureState.Recognized)
+                FailureCount--;
+
+            // Nouvel état
+            SelectedFailure.State = newState;
         }
 
         #region Private Methods
