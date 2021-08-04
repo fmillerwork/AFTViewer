@@ -24,11 +24,11 @@ namespace AFTViewer.View
         {
             var dataContext = (RunViewModel)DataContext;
             dataContext.SelectedFailure = (FailureBaseViewModel)ResultTreeView.SelectedItem;
-            if(dataContext.SelectedFailure is FailureCaptureViewModel failureCapture)
+            if (dataContext.SelectedFailure is FailureCaptureViewModel failureCapture)
             {
 
             }
-            else if(dataContext.SelectedFailure is FailedAssertViewModel failedAssert)
+            else if (dataContext.SelectedFailure is FailedAssertViewModel failedAssert)
             {
                 //OverrideSpecButton
             }
@@ -103,24 +103,17 @@ namespace AFTViewer.View
             var dataContext = (RunViewModel)DataContext;
             if (dataContext != null && dataContext.SelectedFailure != null)
             {
-
-                if (dataContext.SelectedFailure.State != FailureState.Recognized)
+                if (dataContext != null)
                 {
-                    if (dataContext != null)
-                    {
-                        var initialState = dataContext.SelectedFailure.State;
-                        dataContext.UpdateState(FailureState.Recognized);
-                        Helper.SaveChanges(dataContext.Model);
+                    var initialState = dataContext.SelectedFailure.State;
+                    dataContext.UpdateState(FailureState.Recognized);
+                    Helper.SaveChanges(dataContext.Model);
 
-                        // Changement de capture ssi l'ancien l'état initial est Unverified
-                        if (initialState == FailureState.UnVerified)
-                            dataContext.SetSelectedCaptureOnFirstUnverifiedCapture();
-                    }
+                    // Changement de capture ssi l'ancien l'état initial est Unverified
+                    if (initialState == FailureState.UnVerified)
+                        dataContext.SetSelectedCaptureOnFirstUnverifiedCapture();
                 }
-                else
-                {
-                    UnVerified_Click();
-                }
+
             }
         }
 
@@ -129,23 +122,15 @@ namespace AFTViewer.View
             var dataContext = (RunViewModel)DataContext;
             if (dataContext != null && dataContext.SelectedFailure != null)
             {
-                // Si capture est non vérifiée ou faux positif
-                if (dataContext.SelectedFailure.State != FailureState.FalsePositive)
+                if (dataContext != null)
                 {
-                    if (dataContext != null)
-                    {
-                        var initialState = dataContext.SelectedFailure.State;
-                        dataContext.UpdateState(FailureState.FalsePositive);
-                        Helper.SaveChanges(dataContext.Model);
+                    var initialState = dataContext.SelectedFailure.State;
+                    dataContext.UpdateState(FailureState.FalsePositive);
+                    Helper.SaveChanges(dataContext.Model);
 
-                        // Changement de capture ssi l'ancien l'état initial est Unverified
-                        if (initialState == FailureState.UnVerified)
-                            dataContext.SetSelectedCaptureOnFirstUnverifiedCapture();
-                    }
-                }
-                else
-                {
-                    UnVerified_Click();
+                    // Changement de capture ssi l'ancien l'état initial est Unverified
+                    if (initialState == FailureState.UnVerified)
+                        dataContext.SetSelectedCaptureOnFirstUnverifiedCapture();
                 }
             }
         }
@@ -153,7 +138,7 @@ namespace AFTViewer.View
         private void OverrideSpec_Click(object sender, RoutedEventArgs e)
         {
             var dataContext = (RunViewModel)DataContext;
-            if(dataContext.SelectedFailure is FailureCaptureViewModel capture)
+            if (dataContext.SelectedFailure is FailureCaptureViewModel capture)
             {
                 if (dataContext != null && capture != null)
                 {
@@ -171,14 +156,13 @@ namespace AFTViewer.View
         }
 
         #region Methods
-        private void UnVerified_Click()
+        private void UnVerified_Click(object sender, RoutedEventArgs e)
         {
             var dataContext = (RunViewModel)DataContext;
-            if (dataContext != null)
+            if (dataContext != null && dataContext.SelectedFailure != null)
             {
                 dataContext.UpdateState(FailureState.UnVerified);
                 Helper.SaveChanges(dataContext.Model);
-
             }
         }
 

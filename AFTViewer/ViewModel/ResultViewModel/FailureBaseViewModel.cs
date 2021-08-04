@@ -71,12 +71,9 @@ namespace AFTViewer.ViewModel
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(StringState));
                 OnPropertyChanged(nameof(StateTextColor));
-                OnPropertyChanged(nameof(ValidateButtonContent));
-                OnPropertyChanged(nameof(FalsePositiveButtonContent));
-                OnPropertyChanged(nameof(ValidateButtonBackground));
-                OnPropertyChanged(nameof(FalsePositiveButtonBackground));
-                OnPropertyChanged(nameof(ValidateButtonToolTip));
-                OnPropertyChanged(nameof(FalsePositiveButtonToolTip));
+                OnPropertyChanged(nameof(ValidateButtonVisibility));
+                OnPropertyChanged(nameof(FalsePositiveButtonVisibility));
+                OnPropertyChanged(nameof(UnVerifiedButtonVisibility));
             }
         }
 
@@ -102,65 +99,40 @@ namespace AFTViewer.ViewModel
             };
         }
 
-        #region Buttons attributs
-        public string ValidateButtonContent
-        {
-            get => State switch
-            {
-                FailureState.Recognized => "Non verifiée",
-                _ => "Valider échec",
-            };
-        }
-
-        public string FalsePositiveButtonContent
-        {
-            get => State switch
-            {
-                FailureState.FalsePositive => "Non verifiée",
-                _ => "Faux positif",
-            };
-        }
-
-        public string ValidateButtonBackground
-        {
-            get => State switch
-            {
-                FailureState.Recognized => "Orange",
-                _ => "Red",
-            };
-        }
-
-        public string FalsePositiveButtonBackground
-        {
-            get => State switch
-            {
-                FailureState.FalsePositive => "Orange",
-                _ => "Green",
-            };
-        }
-
-        public string ValidateButtonToolTip
-        {
-            get => State switch
-            {
-                FailureState.Recognized => "Passe l'état de l'échec à \"Non vérifiée\"",
-                _ => "Passe l'état de l'échec à \"Avérée\"",
-            };
-        }
-
-        public string FalsePositiveButtonToolTip
-        {
-            get => State switch
-            {
-                FailureState.FalsePositive => "Passe l'état de l'échec à \"Non vérifiée\"",
-                _ => "Passe l'état de l'échec à \"Faux positif\"",
-            };
-        }
+        #region Visibility
+  
         public abstract Visibility CaptureComparerVisibility{ get;}
 
         public abstract Visibility AssertPreviewVisibility { get;  }
 
         public abstract Visibility OverrideButtonVisibility { get;}
+
+        public Visibility ValidateButtonVisibility
+        {
+            get => State switch
+            {
+                FailureState.Recognized => Visibility.Collapsed,
+                _ => Visibility.Visible
+            };
+        }
+
+        public Visibility FalsePositiveButtonVisibility
+        {
+            get => State switch
+            {
+                FailureState.FalsePositive => Visibility.Collapsed,
+                _ => Visibility.Visible
+            };
+        }
+
+        public Visibility UnVerifiedButtonVisibility
+        {
+            get => State switch
+            {
+                FailureState.UnVerified => Visibility.Collapsed,
+                _ => Visibility.Visible
+            };
+        }
 
         #endregion
 

@@ -94,8 +94,9 @@
 
                 <!--Choix-->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="20">
-                    <Button x:Name="ValidateButton" Content="{Binding SelectedFailure.ValidateButtonContent}" ToolTip="{Binding SelectedFailure.ValidateButtonToolTip}" Margin="4" Padding="8,4" Click="ValidateFailure_Click" FontSize="14" FontWeight="Bold" Background="{Binding SelectedFailure.ValidateButtonBackground}" Foreground="White"/>
-                    <Button x:Name="FalsePositiveButton" Content="{Binding SelectedFailure.FalsePositiveButtonContent}" ToolTip="{Binding SelectedFailure.FalsePositiveButtonToolTip}" Margin="4" Padding="8,4" Click="FalsePositive_Click" FontSize="14" FontWeight="Bold" Background="{Binding SelectedFailure.FalsePositiveButtonBackground}" Foreground="White"/>
+                    <Button x:Name="ValidateButton" Content="Valider échec" ToolTip="Passe l'état de l'échec à 'Avérée'" Margin="4" Padding="8,4" Click="ValidateFailure_Click" FontSize="14" FontWeight="Bold" Background="Red" Foreground="White" Visibility="{Binding SelectedFailure.ValidateButtonVisibility}"/>
+                    <Button x:Name="FalsePositiveButton" Content="Faux positif" ToolTip="Passe l'état de l'échec à 'Faux positif'" Margin="4" Padding="8,4" Click="FalsePositive_Click" FontSize="14" FontWeight="Bold" Background="Green" Foreground="White" Visibility="{Binding SelectedFailure.FalsePositiveButtonVisibility}"/>
+                    <Button x:Name="UnVerifyButton" Content="Non verifiée" ToolTip="Passe l'état de l'échec à 'Non vérifiée'" Margin="4" Padding="8,4" Click="UnVerified_Click" FontSize="14" FontWeight="Bold" Background="Orange" Foreground="White" Visibility="{Binding SelectedFailure.UnVerifiedButtonVisibility}"/>
                     <Button x:Name="OverrideSpecButton" Content="Remplacer la spécification" ToolTip="Remplace la spécification actuelle (image de gauche) par la capture de droite." Margin="4" Padding="8,4" Click="OverrideSpec_Click" FontWeight="Bold" FontSize="14" Background="Gray" Foreground="White" Visibility="{Binding SelectedFailure.OverrideButtonVisibility}"/>
                 </StackPanel>
             </StackPanel>
