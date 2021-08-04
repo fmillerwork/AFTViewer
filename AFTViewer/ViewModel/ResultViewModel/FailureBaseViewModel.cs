@@ -53,6 +53,7 @@ namespace AFTViewer.ViewModel
             get => testName;
             set => SetProperty(ref testName, value);
         }
+
         public enum FailureState
         {
             Recognized,
@@ -100,12 +101,12 @@ namespace AFTViewer.ViewModel
         }
 
         #region Visibility
-  
-        public abstract Visibility CaptureComparerVisibility{ get;}
 
-        public abstract Visibility AssertPreviewVisibility { get;  }
+        public abstract Visibility CaptureComparerVisibility { get; }
 
-        public abstract Visibility OverrideButtonVisibility { get;}
+        public abstract Visibility AssertPreviewVisibility { get; }
+
+        public abstract Visibility OverrideButtonVisibility { get; }
 
         public Visibility ValidateButtonVisibility
         {

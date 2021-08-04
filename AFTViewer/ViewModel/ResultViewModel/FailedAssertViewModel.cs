@@ -1,10 +1,4 @@
 ﻿using AFTViewer.Model;
-using AFTViewer.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace AFTViewer.ViewModel
@@ -14,7 +8,7 @@ namespace AFTViewer.ViewModel
         protected override FailureModel model { get; }
 
         public FailedAssertViewModel(FailedAssertResult model, RunViewModel runViewModel, string testSuiteName, string testName) : base(runViewModel, testSuiteName, testName)
-        {   
+        {
             this.model = model;
         }
 

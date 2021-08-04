@@ -20,8 +20,8 @@ namespace AFTViewer.ViewModel
             foreach (var runResultModel in runResultModels)
             {
                 // On ajoute uniquement les Run non vides (avec des failures)
-                if (runResultModel.FailureCount != 0)
-                    Runs.Add(new RunViewModel(runResultModel) { MainViewModel = this });
+                //if (runResultModel.FailureCount != 0)
+                Runs.Add(new RunViewModel(runResultModel) { MainViewModel = this });
             }
             if (Runs.Count != 0)
                 SelectedRun = Runs[^1];

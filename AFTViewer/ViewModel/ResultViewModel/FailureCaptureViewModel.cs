@@ -1,26 +1,24 @@
-﻿using AFTViewer.Utils;
+﻿using AFTViewer.Model;
+using AFTViewer.Utils;
 using System;
 using System.Drawing;
 using System.IO;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using AFTViewer.Model;
 using System.Windows;
+using System.Windows.Media;
 
 namespace AFTViewer.ViewModel
 {
     public class FailureCaptureViewModel : FailureBaseViewModel
     {
-        //private readonly FailureCaptureResultModel model;
-        protected override FailureModel model { get;}
+        protected override FailureModel model { get; }
 
         private readonly string specPath;
         private readonly string failurePath;
         private readonly string capturePath;
-        public FailureCaptureViewModel(FailureCaptureResultModel model, RunViewModel runViewModel, string testSuiteName, string testName) : base (runViewModel, testSuiteName, testName)
+        public FailureCaptureViewModel(FailureCaptureResultModel model, RunViewModel runViewModel, string testSuiteName, string testName) : base(runViewModel, testSuiteName, testName)
         {
             this.model = model;
-            
+
             specPath = string.Format(Globals.RUN_PATH, runViewModel.RunName) + model.SpecCapturePath;
             failurePath = string.Format(Globals.RUN_PATH, runViewModel.RunName) + model.FailurePath;
             capturePath = string.Format(Globals.RUN_PATH, runViewModel.RunName) + model.CapturePath;
@@ -34,8 +32,6 @@ namespace AFTViewer.ViewModel
         {
             get => (FailureCaptureResultModel)model;
         }
-
-        
 
         private ImageSource failureCaptureSource;
         public ImageSource FailureCaptureSource
