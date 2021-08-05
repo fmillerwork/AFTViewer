@@ -24,6 +24,7 @@ namespace AFTViewer.ViewModel
         public string Description
         {
             get => ((FailedAssertResult)model).Description;
+            set => ((FailedAssertResult)model).Description = value;
         }
         public override Visibility CaptureComparerVisibility
         {

@@ -24,14 +24,6 @@ namespace AFTViewer.View
         {
             var dataContext = (RunViewModel)DataContext;
             dataContext.SelectedFailure = (FailureBaseViewModel)ResultTreeView.SelectedItem;
-            if (dataContext.SelectedFailure is FailureCaptureViewModel failureCapture)
-            {
-
-            }
-            else if (dataContext.SelectedFailure is FailedAssertViewModel failedAssert)
-            {
-                //OverrideSpecButton
-            }
         }
 
         #region Collapse/Expand treeview
