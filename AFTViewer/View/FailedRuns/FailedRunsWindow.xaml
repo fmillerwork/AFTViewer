@@ -34,7 +34,7 @@
             </ListBox>
             <Border BorderThickness="1" BorderBrush="Gray" Margin="4">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="4">
-                    <TextBlock Text="{Binding SelectedRunError.ErrorMessage}"/>
+                    <TextBox Text="{Binding SelectedRunError.ErrorMessage}" IsReadOnly="True" BorderThickness="0"/>
                 </ScrollViewer>
             </Border>
         </DockPanel>

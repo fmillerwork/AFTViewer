@@ -11,7 +11,7 @@
         <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" FontSize="22" Margin="4" FontWeight="DemiBold">Description de l'assertion</TextBlock>
         <Border BorderThickness="1" BorderBrush="Gray" Margin="4">
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="4">
-                <TextBlock FontSize="14" Text="{Binding Description}"/>
+                <TextBox FontSize="14" Text="{Binding Description}" IsReadOnly="True" BorderThickness="0"/>
             </ScrollViewer>
         </Border>
     </DockPanel>
