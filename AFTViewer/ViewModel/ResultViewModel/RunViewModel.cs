@@ -13,7 +13,7 @@ namespace AFTViewer.ViewModel
     {
         private readonly RunResultModel model;
 
-        private readonly List<FailureBaseViewModel> FailureCaptureList;
+        private readonly List<FailureBaseViewModel> FailureList;
 
         public RunViewModel(RunResultModel runResultModel)
         {
@@ -24,7 +24,7 @@ namespace AFTViewer.ViewModel
                 TestSuiteViewModels.Add(new TestSuiteViewModel(testSuite, this));
             }
 
-            FailureCaptureList = GetFailureCapturesList();
+            FailureList = GetFailureCapturesList();
             SelectedFailure = GetFirstFailure();
         }
         public RunViewModel()
@@ -106,11 +106,11 @@ namespace AFTViewer.ViewModel
         {
             if (SelectedFailure == null)
                 return;
-            if (FailureCaptureList.Count == 0)
+            if (FailureList.Count == 0)
                 SelectedFailure = null;
             else
             {
-                int selectedCaptureIndex = FailureCaptureList.IndexOf(SelectedFailure);
+                int selectedCaptureIndex = FailureList.IndexOf(SelectedFailure);
 
                 if (getNextUnVerified)
                 {
@@ -119,27 +119,27 @@ namespace AFTViewer.ViewModel
                     {
                         indexCount++;
                         // Si la boucle à fait le tour des captures.
-                        if (indexCount > FailureCaptureList.Count)
+                        if (indexCount > FailureList.Count)
                         {
-                            SelectedFailure = FailureCaptureList.First();
+                            SelectedFailure = FailureList.First();
                             return;
                         }
 
                         // Si dernier indice
-                        if (selectedCaptureIndex == FailureCaptureList.Count - 1)
+                        if (selectedCaptureIndex == FailureList.Count - 1)
                             selectedCaptureIndex = 0;
                         else
                             selectedCaptureIndex++;
-                    } while (FailureCaptureList.ElementAt(selectedCaptureIndex).State != FailureState.UnVerified);
+                    } while (FailureList.ElementAt(selectedCaptureIndex).State != FailureState.UnVerified);
 
-                    SelectedFailure = FailureCaptureList.ElementAt(selectedCaptureIndex);
+                    SelectedFailure = FailureList.ElementAt(selectedCaptureIndex);
                 }
                 else
                 {
-                    if (selectedCaptureIndex == FailureCaptureList.Count - 1)
-                        SelectedFailure = FailureCaptureList.First();
+                    if (selectedCaptureIndex == FailureList.Count - 1)
+                        SelectedFailure = FailureList.First();
                     else
-                        SelectedFailure = FailureCaptureList.ElementAt(selectedCaptureIndex + 1);
+                        SelectedFailure = FailureList.ElementAt(selectedCaptureIndex + 1);
                 }
             }
         }
@@ -152,11 +152,11 @@ namespace AFTViewer.ViewModel
         {
             if (SelectedFailure == null)
                 return;
-            if (FailureCaptureList.Count == 0)
+            if (FailureList.Count == 0)
                 SelectedFailure = null;
             else
             {
-                var selectedCaptureIndex = FailureCaptureList.IndexOf(SelectedFailure);
+                var selectedCaptureIndex = FailureList.IndexOf(SelectedFailure);
                 if (getPrevUnVerified)
                 {
                     int indexCount = 0;
@@ -164,27 +164,27 @@ namespace AFTViewer.ViewModel
                     {
                         // Si la boucle à fait le tour des captures, on renvoie la première capture.
                         indexCount++;
-                        if (indexCount > FailureCaptureList.Count)
+                        if (indexCount > FailureList.Count)
                         {
-                            SelectedFailure = FailureCaptureList.First();
+                            SelectedFailure = FailureList.First();
                             return;
                         }
 
                         // Si premier  indice
                         if (selectedCaptureIndex == 0)
-                            selectedCaptureIndex = FailureCaptureList.Count - 1;
+                            selectedCaptureIndex = FailureList.Count - 1;
                         else
                             selectedCaptureIndex--;
-                    } while (FailureCaptureList.ElementAt(selectedCaptureIndex).State != FailureState.UnVerified);
+                    } while (FailureList.ElementAt(selectedCaptureIndex).State != FailureState.UnVerified);
 
-                    SelectedFailure = FailureCaptureList.ElementAt(selectedCaptureIndex);
+                    SelectedFailure = FailureList.ElementAt(selectedCaptureIndex);
                 }
                 else
                 {
                     if (selectedCaptureIndex == 0)
-                        SelectedFailure = FailureCaptureList.Last();
+                        SelectedFailure = FailureList.Last();
                     else
-                        SelectedFailure = FailureCaptureList.ElementAt(selectedCaptureIndex - 1);
+                        SelectedFailure = FailureList.ElementAt(selectedCaptureIndex - 1);
                 }
             }
         }
@@ -195,7 +195,7 @@ namespace AFTViewer.ViewModel
         public void SetSelectedCaptureOnFirstUnverifiedCapture()
         {
             bool changed = false;
-            foreach (var failureCapture in FailureCaptureList)
+            foreach (var failureCapture in FailureList)
             {
                 if (failureCapture.State == FailureState.UnVerified)
                 {
@@ -205,7 +205,7 @@ namespace AFTViewer.ViewModel
                 }
             }
             if (!changed)
-                SelectedFailure = FailureCaptureList.First();
+                SelectedFailure = FailureList.First();
         }
         #endregion
 
@@ -233,9 +233,11 @@ namespace AFTViewer.ViewModel
                         // Si capture trouvée, suppression capture dans le test.
                         if (failureCapture.TestName == currentTest.TestName)
                         {
-                            var removeCount = currentTest.DeleteFailureCapture(failureCapture.Name);
-                            UnVerifiedFailuresCount -= removeCount;
-                            FailureCount -= removeCount;
+                            currentTest.DeleteFailureCapture(failureCapture.Name);
+                            if(SelectedFailure.State == FailureState.UnVerified)
+                                UnVerifiedFailuresCount -= 1;
+                            else if(SelectedFailure.State == FailureState.Recognized)
+                                FailureCount -= 1;
                             deleted = true;
                         }
 
@@ -263,8 +265,8 @@ namespace AFTViewer.ViewModel
                 // Actualisation des captures
                 MainViewModel.RefreshSpecCaptureSources(selectedCapture.Name);
 
-                // S'il reste des captures dans la run
-                if (FailureCaptureList.Count > 0)
+                // S'il reste des échecs dans la run, changement de l'échec sélectionné
+                if (FailureList.Count > 0)
                 {
                     SetSelectedCaptureOnFirstUnverifiedCapture();
                 }
@@ -305,18 +307,18 @@ namespace AFTViewer.ViewModel
         /// <param name="failureName"></param>
         private void RemoveFailureCapturesFromNavList(string failureName)
         {
-            for (int captureIndex = FailureCaptureList.Count - 1; captureIndex >= 0; captureIndex--)
+            for (int captureIndex = FailureList.Count - 1; captureIndex >= 0; captureIndex--)
             {
-                var currentFailure = FailureCaptureList[captureIndex];
+                var currentFailure = FailureList[captureIndex];
                 if(currentFailure is FailureCaptureViewModel failureCaptureVM)
                 {
                     if (failureCaptureVM.Name == failureName)
-                        FailureCaptureList.Remove(currentFailure);
+                        FailureList.Remove(currentFailure);
                 }
                 else if(currentFailure is FailedAssertViewModel failedAssertVM)
                 {
                     if (failedAssertVM.Name == failureName)
-                        FailureCaptureList.Remove(currentFailure);
+                        FailureList.Remove(currentFailure);
                 }
                 
             }
@@ -348,13 +350,13 @@ namespace AFTViewer.ViewModel
         /// <returns></returns>
         private FailureBaseViewModel GetFirstFailure()
         {
-            foreach (var capture in FailureCaptureList)
+            foreach (var capture in FailureList)
             {
                 if (capture.State == FailureState.UnVerified)
                     return capture;
             }
-            if (FailureCaptureList.Count > 0)
-                return FailureCaptureList.First();
+            if (FailureList.Count > 0)
+                return FailureList.First();
             else
                 return null;
         }

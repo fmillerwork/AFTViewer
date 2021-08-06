@@ -30,23 +30,19 @@ namespace AFTViewer.ViewModel
             set { model.TestName = value; OnPropertyChanged(); }
         }
 
-        public int DeleteFailureCapture(string failureCaptureName)
+        public void DeleteFailureCapture(string failureCaptureName)
         {
             int captureVMIndex = -1;
-            int resolvedUnVerifiedFailuresCount = 0;
             foreach (var captureModel in model.FailureCaptures)
             {
                 captureVMIndex++;
                 if (captureModel.FailureCaptureName.Split('.')[0] == failureCaptureName)
                 {
                     model.FailureCaptures.Remove(captureModel);
-                    if (FailureViewModels.ElementAt(captureVMIndex).State == FailureBaseViewModel.FailureState.UnVerified)
-                        resolvedUnVerifiedFailuresCount++;
                     FailureViewModels.RemoveAt(captureVMIndex);
-                    return resolvedUnVerifiedFailuresCount;
+                    break;
                 }
             }
-            return resolvedUnVerifiedFailuresCount;
         }
     }
 }
