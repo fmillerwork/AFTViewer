@@ -270,11 +270,12 @@ namespace AFTViewer.ViewModel
                 {
                     SetSelectedCaptureOnFirstUnverifiedCapture();
                 }
-                
-                //else
-                //{
-                //    MainViewModel.DeleteSelectedRun();
-                //}
+
+                else
+                {
+                    //MainViewModel.DeleteSelectedRun();
+                    SelectedFailure = null;
+                }
             }
         }
 
