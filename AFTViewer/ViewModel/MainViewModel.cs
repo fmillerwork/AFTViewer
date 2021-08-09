@@ -48,32 +48,45 @@ namespace AFTViewer.ViewModel
         }
 
         /// <summary>
-        /// Effectue un rechargement des captures de specifications pour les FailureCaptureViewModel ayant le nom passé en paramètre (de toutes les runs).
+        /// Supprime le FailureCaptureViewModel dans toutes les runs, supprime les tests, suite ou runs s'ils sont vides et actualise la SelectedCapture.
         /// </summary>
-        /// <param name="failureCaptureName"></param>
-        public void RefreshSpecCaptureSources(string failureCaptureName)
+        /// <param name="failureCapture"></param>
+        public void OverrideSpecCapture(FailureCaptureViewModel failureCapture)
         {
-            foreach (var run in Runs)
+            foreach(var run in Runs)
             {
-                foreach (var suite in run.TestSuiteViewModels)
-                {
-                    foreach (var test in suite.TestViewModels)
-                    {
-                        foreach (var capture in test.FailureViewModels)
-                        {
-                            if(capture is FailureCaptureViewModel c)
-                            {
-                                if (c.Name == failureCaptureName)
-                                {
-                                    var specPath = string.Format(Globals.RUN_PATH, capture.RunName) + c.Model.SpecCapturePath;
-                                    c.SpecCaptureSource = Helper.LoadImage(specPath);
-                                }
-                            }
-                        }
-                    }
-                }
+                run.OverrideSpecCapture(failureCapture);
             }
         }
+
+        ///// <summary>
+        ///// Effectue un rechargement des captures de specifications pour les FailureCaptureViewModel ayant le nom passé en paramètre (de toutes les runs).
+        ///// </summary>
+        ///// <param name="failureCaptureName"></param>
+        //public void RefreshSpecCaptureSources(string failureCaptureName)
+        //{
+        //    foreach (var run in Runs)
+        //    {
+        //        foreach (var suite in run.TestSuiteViewModels)
+        //        {
+        //            foreach (var test in suite.TestViewModels)
+        //            {
+        //                foreach (var failure in test.FailureViewModels)
+        //                {
+        //                    if(failure is FailureCaptureViewModel c)
+        //                    {
+        //                        if (c.Name == failureCaptureName)
+        //                        {
+        //                            var specPath = string.Format(Globals.RUN_PATH, failure.RunName) + c.Model.SpecCapturePath;
+        //                            c.SpecCaptureSource = Helper.LoadImage(specPath);
+        //                            c.State = FailureBaseViewModel.FailureState.UnVerified;
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
         public void SetPrevRun()
         {

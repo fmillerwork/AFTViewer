@@ -86,10 +86,10 @@ namespace AFTViewer.ViewModel
 
                 if (selectedFailure != null)
                 {
-                    //if (selectedCapture != null) selectedCapture.Background = Brushes.DodgerBlue; // bleu de selection
-                    //if (selectedCapture != null) selectedCapture.Background = new SolidColorBrush(Color.FromRgb(238, 111, 36)); // couleur n2f
-                    //if (selectedCapture != null) selectedCapture.Background = Brushes.Orange;
-                    selectedFailure.BackgroundColor = new SolidColorBrush(Color.FromRgb(154, 154, 154)); // gris
+                    selectedFailure.BackgroundColor = Brushes.DodgerBlue; // bleu de selection
+                    //selectedFailure.BackgroundColor = selectedCapture.Background = new SolidColorBrush(Color.FromRgb(238, 111, 36)); // couleur n2f
+                    //selectedFailure.BackgroundColor = selectedCapture.Background = Brushes.Orange;
+                    //selectedFailure.BackgroundColor = new SolidColorBrush(Color.FromRgb(160, 160, 160)); // gris
                 }
             }
         }
@@ -262,8 +262,8 @@ namespace AFTViewer.ViewModel
                 // Suppression des captures dans la liste de navigation.
                 RemoveFailureCapturesFromNavList(failureCapture.Name);
 
-                // Actualisation des captures
-                MainViewModel.RefreshSpecCaptureSources(selectedCapture.Name);
+                //// Actualisation des captures
+                //MainViewModel.RefreshSpecCaptureSources(selectedCapture.Name);
 
                 // S'il reste des échecs dans la run, changement de l'échec sélectionné
                 if (FailureList.Count > 0)

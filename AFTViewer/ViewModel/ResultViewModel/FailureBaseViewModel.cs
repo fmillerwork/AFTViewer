@@ -89,14 +89,14 @@ namespace AFTViewer.ViewModel
             };
         }
 
-        public string StateTextColor
+        public Brush StateTextColor
         {
             get => State switch
             {
-                FailureState.Recognized => "Red",
-                FailureState.FalsePositive => "Green",
-                FailureState.UnVerified => "Orange",
-                _ => "Orange",
+                FailureState.Recognized => Brushes.Red,
+                FailureState.FalsePositive => Brushes.DarkGreen,
+                FailureState.UnVerified => Brushes.Orange,
+                _ => Brushes.Orange,
             };
         }
 

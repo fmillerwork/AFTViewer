@@ -139,8 +139,12 @@ namespace AFTViewer.View
                     {
                         if (dataContext != null)
                         {
-                            dataContext.OverrideSpecCapture(capture);
-                            Helper.SaveChanges(dataContext.Model);
+                            dataContext.MainViewModel.OverrideSpecCapture(capture);
+                            // Save pour chaque run.
+                            foreach(var run in dataContext.MainViewModel.Runs)
+                            {
+                                Helper.SaveChanges(run.Model);
+                            }
                         }
                     }
                 }
