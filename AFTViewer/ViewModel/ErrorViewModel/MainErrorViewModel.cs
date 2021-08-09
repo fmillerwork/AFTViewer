@@ -21,7 +21,7 @@ namespace AFTViewer.ViewModel
                 RunErrors.Add(new RunErrorViewModel(runErrorModel));
             }
             if (RunErrors.Count != 0)
-                SelectedRunError = RunErrors[0];
+                SelectedRunError = RunErrors[^1];
         }
 
         public ObservableCollection<RunErrorViewModel> RunErrors { get; set; }
@@ -38,7 +38,7 @@ namespace AFTViewer.ViewModel
             Directory.Delete(string.Format(Globals.RUN_PATH, SelectedRunError.TimeStamp), true);
             RunErrors.Remove(SelectedRunError);
             if (RunErrors.Count != 0)
-                SelectedRunError = RunErrors[0];
+                SelectedRunError = RunErrors[^1];
         }
 
         public void ReloadRuns()
