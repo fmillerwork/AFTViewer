@@ -53,8 +53,7 @@ namespace AFTViewer
             {
                 failedRunsWindow = new FailedRunsWindow()
                 {
-                    DataContext = new MainErrorViewModel(),
-                    Topmost = true
+                    DataContext = new MainErrorViewModel()
                 };
                 failedRunsWindow.Show();
             }
