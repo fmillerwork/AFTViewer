@@ -23,7 +23,7 @@ namespace AFTViewer
             var dataContext = (MainViewModel)DataContext;
             if (dataContext.Runs.Count > 0)
             {
-                MessageBoxResult messageBoxResult = MessageBox.Show("Êtes-vous sûr(e) ?", "Confirmation de suppression", MessageBoxButton.YesNo);
+                MessageBoxResult messageBoxResult = MessageBox.Show("Êtes-vous sûr(e) ?", "Confirmation de suppression", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
                     ((MainViewModel)DataContext).DeleteSelectedRun();

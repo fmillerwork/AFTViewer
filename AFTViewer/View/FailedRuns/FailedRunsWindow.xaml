@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AFTViewer.View"
         mc:Ignorable="d"
-        Title="Runs échouées" Height="450" Width="800">
+        Title="Runs échouées" Height="600" Width="1200">
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4">
             <Button Margin="4" Click="RemoveRunError_Click" Padding="4" ToolTip="Supprimer la run échouée sélectionnée">
