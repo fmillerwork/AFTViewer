@@ -118,7 +118,7 @@ namespace AFTViewer.Utils
             }
             catch (Exception)
             {
-                throw;
+                return null;
             }
         }
     }
