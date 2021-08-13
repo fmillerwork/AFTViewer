@@ -1,11 +1,6 @@
 ﻿using AFTViewer.Model;
 using AFTViewer.Utils;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace AFTViewer.ViewModel
 {
@@ -16,6 +11,9 @@ namespace AFTViewer.ViewModel
         public RunErrorViewModel(RunErrorModel model)
         {
             this.model = model;
+
+            // Lecture image erreur
+            ErrorCaptureSource = Helper.LoadImage(string.Format(Globals.RUN_PATH, model.TimeStamp) + "_error.png");
         }
 
         public string TimeStamp
@@ -30,5 +28,11 @@ namespace AFTViewer.ViewModel
             set { model.ErrorMessage = value; OnPropertyChanged(); }
         }
 
+        private ImageSource errorCaptureSource;
+        public ImageSource ErrorCaptureSource
+        {
+            get => errorCaptureSource;
+            set => SetProperty(ref errorCaptureSource, value);
+        }
     }
 }

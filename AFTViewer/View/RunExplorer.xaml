@@ -54,7 +54,7 @@
 
                     <DataTemplate DataType="{x:Type viewModel:FailureBaseViewModel}">
                         <StackPanel Orientation="Horizontal" Background="{Binding BackgroundColor}" MouseLeftButtonUp="ResultTreeView_ItemClicked">
-                            <Image Source="{Binding IconeFailureImageSource}" Margin="0,0,5,0" Stretch="Uniform" Height="20"/> <!--binding imageSource-->
+                            <Image Source="{Binding IconeFailureImageSource}" Margin="0,0,5,0" Stretch="Uniform" Height="20"/>
                             <TextBlock Text="{Binding Name}" Foreground="{Binding StateTextColor}" FontWeight="Bold" VerticalAlignment="Center"/>
                         </StackPanel>
                     </DataTemplate>
@@ -62,44 +62,46 @@
                 </TreeView.Resources>
             </TreeView>
         </DockPanel>
-        <Border HorizontalAlignment="Center" Margin="4" DockPanel.Dock="Bottom" CornerRadius="2" BorderBrush="Black" BorderThickness="1">
-            <StackPanel Orientation="Vertical" Margin="4" HorizontalAlignment="Center">
-                <!--Commentaire-->
-                <StackPanel  Margin="8">
-                    <TextBlock Text="Commentaires" HorizontalAlignment="Center" FontSize="14"/>
-                    <TextBox Text="{Binding SelectedFailure.Comment, UpdateSourceTrigger=PropertyChanged}" TextChanged="CommentTextBox_TextChanged" Height="50"/>
-                </StackPanel>
-                
-                <!--Informations capture-->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Margin="5" VerticalAlignment="Center">Run :</TextBlock>
-                    <TextBlock Margin="0,0,10,0" FontWeight="Bold" VerticalAlignment="Center" Text="{Binding SelectedFailure.RunName}"></TextBlock>
-                    <TextBlock Margin="5" VerticalAlignment="Center">Suite :</TextBlock>
-                    <TextBlock Margin="0,0,10,0" FontWeight="Bold" VerticalAlignment="Center" Text="{Binding SelectedFailure.TestSuiteName}"></TextBlock>
-                    <TextBlock Margin="5" VerticalAlignment="Center">Test :</TextBlock>
-                    <TextBlock Margin="0,0,10,0" FontWeight="Bold" VerticalAlignment="Center" Text="{Binding SelectedFailure.TestName}"></TextBlock>
-                    <TextBlock Margin="5" VerticalAlignment="Center">Échec :</TextBlock>
-                    <TextBlock Margin="0,0,10,0" FontWeight="Bold" VerticalAlignment="Center" Text="{Binding SelectedFailure.Name}"></TextBlock>
-                    <TextBlock Margin="5" VerticalAlignment="Center">État :</TextBlock>
-                    <TextBlock Margin="0,0,10,0" FontWeight="Bold" Foreground="{Binding SelectedFailure.StateTextColor}" VerticalAlignment="Center" Text="{Binding SelectedFailure.StringState}"></TextBlock>
-                </StackPanel>
-                
-                <!--Navigation-->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="Vérif précédente" ToolTip="Passer à la demande de vérification précédente. Passe à la capture précédente si toutes les captures sont vérifiées." Margin="4" Padding="8,4" Click="PreviousVerif_Click" FontSize="16"/>
-                    <Button Content="Échec précédente" ToolTip="Passe à capture précédente." Margin="4" Padding="8,4" Click="PreviousFailure_Click" FontSize="16"/>
-                    <Button Content="Échec suivante" ToolTip="Passe à capture suivante." Margin="4" Padding="8,4" Click="NextFailure_Click" FontSize="16"/>
-                    <Button Content="Vérif suivante" ToolTip="Passe à la demande de vérification suivante. Passe à la capture suivante si toutes les captures sont vérifiées." Margin="4" Padding="8,4" Click="NextVerif_Click" FontSize="16"/>
-                </StackPanel>
+        <Border HorizontalAlignment="Center" DockPanel.Dock="Bottom" Margin="4" CornerRadius="2" BorderBrush="Black" BorderThickness="1">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Vertical" Margin="4" HorizontalAlignment="Center">
+                    <!--Commentaire-->
+                    <StackPanel  Margin="8">
+                        <TextBlock Text="Commentaires" HorizontalAlignment="Center" FontSize="14"/>
+                        <TextBox Text="{Binding SelectedFailure.Comment, UpdateSourceTrigger=PropertyChanged}" TextChanged="CommentTextBox_TextChanged" Height="50"/>
+                    </StackPanel>
 
-                <!--Choix-->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="20">
-                    <Button x:Name="ValidateButton" Content="Valider échec" ToolTip="Passe l'état de l'échec à 'Avérée'" Margin="4" Padding="8,4" Click="ValidateFailure_Click" FontSize="14" FontWeight="Bold" Background="Red" Foreground="White" Visibility="{Binding SelectedFailure.ValidateButtonVisibility}"/>
-                    <Button x:Name="FalsePositiveButton" Content="Faux positif" ToolTip="Passe l'état de l'échec à 'Faux positif'" Margin="4" Padding="8,4" Click="FalsePositive_Click" FontSize="14" FontWeight="Bold" Background="Green" Foreground="White" Visibility="{Binding SelectedFailure.FalsePositiveButtonVisibility}"/>
-                    <Button x:Name="UnVerifyButton" Content="Non verifiée" ToolTip="Passe l'état de l'échec à 'Non vérifiée'" Margin="4" Padding="8,4" Click="UnVerified_Click" FontSize="14" FontWeight="Bold" Background="Orange" Foreground="White" Visibility="{Binding SelectedFailure.UnVerifiedButtonVisibility}"/>
-                    <Button x:Name="OverrideSpecButton" Content="Remplacer la spécification" ToolTip="Remplace la spécification actuelle (image de gauche) par la capture de droite." Margin="4" Padding="8,4" Click="OverrideSpec_Click" FontWeight="Bold" FontSize="14" Background="Gray" Foreground="White" Visibility="{Binding SelectedFailure.OverrideButtonVisibility}"/>
+                    <!--Informations capture-->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Margin="5" VerticalAlignment="Center">Run :</TextBlock>
+                        <TextBlock Margin="0,0,10,0" FontWeight="Bold" VerticalAlignment="Center" Text="{Binding SelectedFailure.RunName}"></TextBlock>
+                        <TextBlock Margin="5" VerticalAlignment="Center">Suite :</TextBlock>
+                        <TextBlock Margin="0,0,10,0" FontWeight="Bold" VerticalAlignment="Center" Text="{Binding SelectedFailure.TestSuiteName}"></TextBlock>
+                        <TextBlock Margin="5" VerticalAlignment="Center">Test :</TextBlock>
+                        <TextBlock Margin="0,0,10,0" FontWeight="Bold" VerticalAlignment="Center" Text="{Binding SelectedFailure.TestName}"></TextBlock>
+                        <TextBlock Margin="5" VerticalAlignment="Center">Échec :</TextBlock>
+                        <TextBlock Margin="0,0,10,0" FontWeight="Bold" VerticalAlignment="Center" Text="{Binding SelectedFailure.Name}"></TextBlock>
+                        <TextBlock Margin="5" VerticalAlignment="Center">État :</TextBlock>
+                        <TextBlock Margin="0,0,10,0" FontWeight="Bold" Foreground="{Binding SelectedFailure.StateTextColor}" VerticalAlignment="Center" Text="{Binding SelectedFailure.StringState}"></TextBlock>
+                    </StackPanel>
+
+                    <!--Navigation-->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="Vérif précédente" ToolTip="Passer à la demande de vérification précédente. Passe à la capture précédente si toutes les captures sont vérifiées." Margin="4" Padding="8,4" Click="PreviousVerif_Click" FontSize="16"/>
+                        <Button Content="Échec précédente" ToolTip="Passe à capture précédente." Margin="4" Padding="8,4" Click="PreviousFailure_Click" FontSize="16"/>
+                        <Button Content="Échec suivante" ToolTip="Passe à capture suivante." Margin="4" Padding="8,4" Click="NextFailure_Click" FontSize="16"/>
+                        <Button Content="Vérif suivante" ToolTip="Passe à la demande de vérification suivante. Passe à la capture suivante si toutes les captures sont vérifiées." Margin="4" Padding="8,4" Click="NextVerif_Click" FontSize="16"/>
+                    </StackPanel>
+
+                    <!--Choix-->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="20">
+                        <Button x:Name="ValidateButton" Content="Valider échec" ToolTip="Passe l'état de l'échec à 'Avérée'" Margin="4" Padding="8,4" Click="ValidateFailure_Click" FontSize="14" FontWeight="Bold" Background="Red" Foreground="White" Visibility="{Binding SelectedFailure.ValidateButtonVisibility}"/>
+                        <Button x:Name="FalsePositiveButton" Content="Faux positif" ToolTip="Passe l'état de l'échec à 'Faux positif'" Margin="4" Padding="8,4" Click="FalsePositive_Click" FontSize="14" FontWeight="Bold" Background="Green" Foreground="White" Visibility="{Binding SelectedFailure.FalsePositiveButtonVisibility}"/>
+                        <Button x:Name="UnVerifyButton" Content="Non verifiée" ToolTip="Passe l'état de l'échec à 'Non vérifiée'" Margin="4" Padding="8,4" Click="UnVerified_Click" FontSize="14" FontWeight="Bold" Background="Orange" Foreground="White" Visibility="{Binding SelectedFailure.UnVerifiedButtonVisibility}"/>
+                        <Button x:Name="OverrideSpecButton" Content="Remplacer la spécification" ToolTip="Remplace la spécification actuelle (image de gauche) par la capture de droite." Margin="4" Padding="8,4" Click="OverrideSpec_Click" FontWeight="Bold" FontSize="14" Background="Gray" Foreground="White" Visibility="{Binding SelectedFailure.OverrideButtonVisibility}"/>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
+            </ScrollViewer>
         </Border>
         <view:CaptureComparer x:Name="CaptureComparer" DataContext="{Binding SelectedFailure}" Visibility="{Binding CaptureComparerVisibility}"/>
         <view:AssertPreview x:Name="AssertPreview" DataContext="{Binding SelectedFailure}" Visibility="{Binding AssertPreviewVisibility}"/>

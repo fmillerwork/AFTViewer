@@ -40,5 +40,9 @@ namespace AFTViewer.View
             ((MainErrorViewModel)DataContext).SetNextRun();
         }
 
+        private void ResetLeftCapture_Click(object sender, RoutedEventArgs e)
+        {
+            ErrorCapture.Reset();
+        }
     }
 }

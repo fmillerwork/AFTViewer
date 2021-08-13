@@ -76,7 +76,7 @@ namespace AFTViewer.Utils
 
         private void Child_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (child != null)
+            if (child != null && IsCtrlKeyPressed())
             {
                 var st = GetScaleTransform(child);
                 var tt = GetTranslateTransform(child);
@@ -102,7 +102,7 @@ namespace AFTViewer.Utils
 
         private void Child_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (child != null)
+            if (child != null && IsCtrlKeyPressed())
             {
                 var tt = GetTranslateTransform(child);
                 start = e.GetPosition(this);
@@ -114,7 +114,7 @@ namespace AFTViewer.Utils
 
         private void Child_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (child != null)
+            if (child != null && IsCtrlKeyPressed())
             {
                 child.ReleaseMouseCapture();
                 Cursor = Cursors.Arrow;
@@ -128,7 +128,7 @@ namespace AFTViewer.Utils
 
         private void Child_MouseMove(object sender, MouseEventArgs e)
         {
-            if (child != null)
+            if (child != null && IsCtrlKeyPressed())
             {
                 if (child.IsMouseCaptured)
                 {
@@ -140,6 +140,10 @@ namespace AFTViewer.Utils
             }
         }
 
+        private bool IsCtrlKeyPressed()
+        {
+            return (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl));
+        }
         #endregion
     }
 }
