@@ -49,14 +49,14 @@ namespace AFTViewer.Utils
         public static string TEST_PATH =                BASE_PATH + @"TFA\Runs\{0}\{1}\{2}\";
 
         /// <summary>
-        /// "CapturesTFA\Runs\{0}\{1}\{2}\_Asserts\\"
+        /// "CapturesTFA\Runs\{0}\{1}\{2}\_FailedAsserts\"
         /// </summary>
-        public static string ASSERT_FAILURES_PATH =    BASE_PATH + @"TFA\Runs\{0}\{1}\{2}\_Asserts\";
+        public static string ASSERT_FAILURES_PATH =    BASE_PATH + @"TFA\Runs\{0}\{1}\{2}\_FailedAsserts\";
 
         /// <summary>
-        /// "CapturesTFA\Runs\{0}\{1}\{2}\_Failures\"
+        /// "CapturesTFA\Runs\{0}\{1}\{2}\_FailedCapture\"
         /// </summary>
-        public static string CAPTURE_FAIURES_PATH =     BASE_PATH + @"TFA\Runs\{0}\{1}\{2}\_Failures\";
+        public static string CAPTURE_FAIURES_PATH =     BASE_PATH + @"TFA\Runs\{0}\{1}\{2}\_FailedCapture\";
 
         public const string DATE_FORMAT = "yyyy-MM-dd HH'h'mm'min'ss's'";
         public const string FAILURE_EXTENSION = ".fail.png";
